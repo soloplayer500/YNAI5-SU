@@ -107,5 +107,32 @@ _Tickers to watch but not currently in portfolio_
 
 ---
 
+## 🆕 OPN — Opinion Labs
+_Added: 2026-03-09 | Status: WATCHING — small entry, monitoring sell pressure_
+
+- **Platform:** BNB Chain (BEP-20) — listed on Binance March 5, 2026
+- **Entry Date:** 2026-03-09 | **Entry Price:** ~$0.31
+- **ATH:** $0.75 (Feb 23, 2026) — currently **-58% from ATH**
+- **Market Cap:** ~$61M | **FDV:** ~$320M | Circulating: 200M / 1B total (20% only)
+
+### Alert Thresholds (run `python projects/crypto-monitoring/price-alert.py`)
+| Direction | Price | Action |
+|-----------|-------|--------|
+| DOWN | **$0.18** | Potential accumulation zone — airdrop pressure may exhaust |
+| UP | **$0.45** | Recovery signal — re-evaluate and consider adding |
+| UP | **$0.60** | Near ATH resistance — consider reducing / taking profit |
+
+### Key Dates to Watch
+- **~Oct 2026** — 7-month airdrop vest completes, sell pressure should ease
+- **Q3 2026** — check for real platform usage (prediction market volume)
+- **March 2027** — team + investor cliff: 425M tokens unlock (2x current supply)
+
+### Thesis
+Solid Tier-1 backing (Binance Labs, Jump Crypto, Hack VC). Real product. Currently in post-launch
+distribution phase. Not a scam but wrong timing for large entry. Better window: $0.15–$0.20.
+Full research: `projects/crypto-monitoring/research/2026-03-09-OPN-opinion-labs.md`
+
+---
+
 ## Archived (Exited Positions)
 _Move entries here when sold_

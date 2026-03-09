@@ -80,6 +80,8 @@ YNAI5-SU/
 - `/project-update [name]` — update project README status
 - `/voice-gen [text]` — ElevenLabs TTS → MP3 saved to projects/social-media-automation/audio/
 - `/prompt-gen [platform] [type] [subject] [style]` — structured 8-layer AI video/image prompt generation
+- `/gemini [task] [input] [--model pro] [--save]` — Google Gemini sub-agent (Flash 1500/day | Pro 100/day free)
+- `/email-check [query]` — search Gmail via MCP (brand deals, notifications, crypto alerts)
 
 ## Key Imports
 @context/profile.md
