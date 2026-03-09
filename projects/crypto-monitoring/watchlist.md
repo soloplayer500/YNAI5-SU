@@ -110,10 +110,14 @@ _Tickers to watch but not currently in portfolio_
 ## 🆕 OPN — Opinion Labs
 _Added: 2026-03-09 | Status: WATCHING — small entry, monitoring sell pressure_
 
-- **Platform:** BNB Chain (BEP-20) — listed on Binance March 5, 2026
-- **Entry Date:** 2026-03-09 | **Entry Price:** ~$0.31
+- **Platform:** Revolut (BEP-20 / BNB Chain — listed on Binance March 5, 2026)
+- **Entry Date:** 2026-03-09 | **Avg Buy Price:** $0.3326
+- **Balance:** 3.498 OPN | **Position Value:** ~$1.10
+- **Unrealized P&L:** -$0.0671 (-5.77%)
+- **Current Price:** ~$0.314 (as of last check)
 - **ATH:** $0.75 (Feb 23, 2026) — currently **-58% from ATH**
-- **Market Cap:** ~$61M | **FDV:** ~$320M | Circulating: 200M / 1B total (20% only)
+- **Market Cap:** $62.2M | **24H Volume:** $137.1M | **Market Rank:** #387
+- **FDV:** ~$320M | Circulating: 200M / 1B total (20% only)
 
 ### Alert Thresholds (run `python projects/crypto-monitoring/price-alert.py`)
 | Direction | Price | Action |
