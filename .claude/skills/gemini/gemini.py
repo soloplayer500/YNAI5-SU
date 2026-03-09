@@ -25,8 +25,8 @@ ENV_FILE       = WORKSPACE_ROOT / ".env.local"
 NOTES_DIR      = WORKSPACE_ROOT / "notes"
 
 MODELS = {
-    "flash": "gemini-2.0-flash",   # 1,500 req/day free — fast, good quality
-    "pro":   "gemini-2.5-flash",   # deeper reasoning, also free tier
+    "flash": "gemini-flash-latest",   # always latest stable flash — confirmed working
+    "pro":   "gemini-pro-latest",     # latest pro model
 }
 DEFAULT_MODEL = "flash"
 
