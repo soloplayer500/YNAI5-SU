@@ -2,15 +2,37 @@
 """
 Price Alert Checker — YNAI5-SU Crypto Monitoring
 Checks current prices vs alert thresholds. Uses CoinGecko free API (no key needed).
+Optional: add COINGECKO_API_KEY to .env.local for higher rate limits (demo key = 30 calls/min).
 Run manually: python price-alert.py
 Schedule: Windows Task Scheduler → run daily or on-demand
 
-No external dependencies — stdlib only (urllib, json).
+No external dependencies — stdlib only (urllib, json, os, pathlib).
 """
 
 import json
+import os
 import urllib.request
 from datetime import datetime
+from pathlib import Path
+
+
+# ── Load .env.local ──────────────────────────────────────────────────────────
+
+def load_env() -> dict:
+    """Load key=value pairs from .env.local (two levels up from this file)."""
+    env_path = Path(__file__).resolve().parent.parent.parent / ".env.local"
+    env = {}
+    if env_path.exists():
+        for line in env_path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, _, v = line.partition("=")
+                env[k.strip()] = v.strip()
+    return env
+
+
+ENV = load_env()
+COINGECKO_API_KEY = ENV.get("COINGECKO_API_KEY", "")
 
 # ── Alert Config ────────────────────────────────────────────────────────────────
 # Format: "coingecko_id": { "symbol": "TICKER", "alerts": [(price, label), ...] }
@@ -67,14 +89,26 @@ WATCHLIST = {
 # ── CoinGecko API ───────────────────────────────────────────────────────────────
 
 def get_prices(coin_ids: list) -> dict:
-    """Fetch current prices from CoinGecko free API. No key required."""
+    """Fetch current prices from CoinGecko.
+    - No key: free public endpoint (10–15 calls/min, may 429 occasionally)
+    - With COINGECKO_API_KEY in .env.local: demo endpoint (30 calls/min, more reliable)
+    """
     ids_str = ",".join(coin_ids)
-    url = f"https://api.coingecko.com/api/v3/simple/price?ids={ids_str}&vs_currencies=usd&include_24hr_change=true"
 
-    req = urllib.request.Request(
-        url,
-        headers={"Accept": "application/json", "User-Agent": "YNAI5-PriceAlert/1.0"},
-    )
+    if COINGECKO_API_KEY:
+        # Demo/Pro endpoint — higher rate limits
+        url = f"https://api.coingecko.com/api/v3/simple/price?ids={ids_str}&vs_currencies=usd&include_24hr_change=true"
+        headers = {
+            "Accept": "application/json",
+            "User-Agent": "YNAI5-PriceAlert/1.0",
+            "x-cg-demo-api-key": COINGECKO_API_KEY,
+        }
+    else:
+        # Free public endpoint — no key, lower limits
+        url = f"https://api.coingecko.com/api/v3/simple/price?ids={ids_str}&vs_currencies=usd&include_24hr_change=true"
+        headers = {"Accept": "application/json", "User-Agent": "YNAI5-PriceAlert/1.0"}
+
+    req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
             return json.loads(resp.read().decode())
@@ -106,8 +140,10 @@ def format_change(change: float) -> str:
 
 def main():
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    api_mode = "Demo key (30 req/min)" if COINGECKO_API_KEY else "Free tier (no key)"
     print(f"\n{'='*60}")
     print(f"  YNAI5 Price Alert Check — {now}")
+    print(f"  CoinGecko: {api_mode}")
     print(f"{'='*60}\n")
 
     coin_ids = list(WATCHLIST.keys())

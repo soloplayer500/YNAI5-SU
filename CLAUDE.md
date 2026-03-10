@@ -87,6 +87,7 @@ YNAI5-SU/
 - `/prompt-gen [platform] [type] [subject] [style]` — structured 8-layer AI video/image prompt generation
 - `/gemini [task] [input] [--model pro] [--save]` — Google Gemini sub-agent (Flash 1500/day | Pro 100/day free)
 - `/email-check [query]` — search Gmail via MCP (brand deals, notifications, crypto alerts)
+- `/kraken [balance|price|trades|orders]` — Kraken exchange API — portfolio balance, live prices, trade history
 
 ## Key Imports
 @context/profile.md
