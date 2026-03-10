@@ -19,7 +19,9 @@ Last Updated: 2026-03-10 (Session 4)
 - [2026-03-10] Brave Search MCP added to Claude Code — 2000 free searches/month (key in .env.local)
 - [2026-03-10] Telegram bot created (ID: 8420532120) — price-alert.py wired for 24/7 Telegram notifications
 - [2026-03-10] Windows Task Scheduler activated — YNAI5-CryptoAlert runs 8AM + 10PM daily
-- [2026-03-10] PENDING: get Chat ID via get_chat_id.py → add TELEGRAM_CHAT_ID to .env.local to activate alerts
+- [2026-03-10] Telegram LIVE: personal chat ID 8569520396 (bot: @SoloClaude5_bot) — alerts confirmed working
+- [2026-03-10] market-report.py built — CoinGecko + Kraken + Brave News + Gemini AI + Telegram, 3x/day
+- [2026-03-10] Task Scheduler: 3 tasks — YNAI5-Report-Morning(8AM), Evening(6PM), Night(9PM)
 - [2026-03-10] SECURITY: Regenerate Brave API keys (both) + Telegram bot token — all were shared in chat
 
 ## Preferences Summary

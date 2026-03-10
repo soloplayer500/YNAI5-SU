@@ -1,52 +1,47 @@
-# YNAI5 — Price Alert Scheduler Setup
-# Run this ONCE as Administrator to create twice-daily alert tasks.
+# YNAI5 — Market Report Scheduler Setup
+# Runs market-report.py 3x daily: 8 AM, 6 PM, 9 PM
+# Run this ONCE as Administrator to register all tasks.
 # Right-click this file → Run with PowerShell (as Administrator)
 
-$ScriptDir = "C:\Users\shema\OneDrive\Desktop\YNAI5-SU\projects\crypto-monitoring"
-$BatchFile = "$ScriptDir\run_alerts.bat"
-$Python    = (Get-Command python).Source
+$WorkDir = "C:\Users\shema\OneDrive\Desktop\YNAI5-SU"
+$Python  = (Get-Command python).Source
+$Script  = "projects\crypto-monitoring\market-report.py"
 
-# ── Task 1: Morning Check (8:00 AM) ─────────────────────────────────────────
-$ActionMorning  = New-ScheduledTaskAction -Execute $Python `
-    -Argument "projects\crypto-monitoring\price-alert.py" `
-    -WorkingDirectory "C:\Users\shema\OneDrive\Desktop\YNAI5-SU"
-
-$TriggerMorning = New-ScheduledTaskTrigger -Daily -At "08:00AM"
-
-$SettingsMorning = New-ScheduledTaskSettingsSet `
-    -ExecutionTimeLimit (New-TimeSpan -Minutes 2) `
+$Settings = New-ScheduledTaskSettingsSet `
+    -ExecutionTimeLimit (New-TimeSpan -Minutes 3) `
     -RunOnlyIfNetworkAvailable `
     -StartWhenAvailable
 
-Register-ScheduledTask `
-    -TaskName   "YNAI5-CryptoAlert-Morning" `
-    -TaskPath   "\YNAI5\" `
-    -Action     $ActionMorning `
-    -Trigger    $TriggerMorning `
-    -Settings   $SettingsMorning `
-    -RunLevel   Limited `
-    -Force
+# ── Helper: create one task ───────────────────────────────────────────────────
+function Register-ReportTask($TaskName, $Time) {
+    $Action = New-ScheduledTaskAction `
+        -Execute $Python `
+        -Argument $Script `
+        -WorkingDirectory $WorkDir
 
-Write-Host "Morning task created: 08:00 AM daily" -ForegroundColor Green
+    $Trigger = New-ScheduledTaskTrigger -Daily -At $Time
 
-# ── Task 2: Night Check (10:00 PM) ──────────────────────────────────────────
-$ActionNight  = New-ScheduledTaskAction -Execute $Python `
-    -Argument "projects\crypto-monitoring\price-alert.py" `
-    -WorkingDirectory "C:\Users\shema\OneDrive\Desktop\YNAI5-SU"
+    Register-ScheduledTask `
+        -TaskName   $TaskName `
+        -TaskPath   "\YNAI5\" `
+        -Action     $Action `
+        -Trigger    $Trigger `
+        -Settings   $Settings `
+        -RunLevel   Limited `
+        -Force | Out-Null
 
-$TriggerNight = New-ScheduledTaskTrigger -Daily -At "10:00PM"
-
-Register-ScheduledTask `
-    -TaskName   "YNAI5-CryptoAlert-Night" `
-    -TaskPath   "\YNAI5\" `
-    -Action     $ActionNight `
-    -Trigger    $TriggerNight `
-    -Settings   $SettingsMorning `
-    -RunLevel   Limited `
-    -Force
-
-Write-Host "Night task created: 10:00 PM daily" -ForegroundColor Green
+    Write-Host "  ✓ $TaskName — $Time daily" -ForegroundColor Green
+}
 
 Write-Host ""
-Write-Host "Both tasks registered. Check Task Scheduler -> YNAI5 folder to verify." -ForegroundColor Cyan
-Write-Host "Logs will appear at: projects\crypto-monitoring\logs\" -ForegroundColor Cyan
+Write-Host "YNAI5 — Registering Market Report Tasks" -ForegroundColor Cyan
+Write-Host ""
+
+Register-ReportTask "YNAI5-Report-Morning" "08:00AM"
+Register-ReportTask "YNAI5-Report-Evening" "06:00PM"
+Register-ReportTask "YNAI5-Report-Night"   "09:00PM"
+
+Write-Host ""
+Write-Host "All 3 tasks registered. Open Task Scheduler > YNAI5 folder to verify." -ForegroundColor Cyan
+Write-Host "Script: $WorkDir\$Script" -ForegroundColor Gray
+Write-Host ""
