@@ -1,7 +1,7 @@
 # Documentation Index
 _Update this file whenever a new doc is added._
 
-Last Updated: 2026-03-10
+Last Updated: 2026-03-10 (Session 4)
 
 ---
 
@@ -10,6 +10,7 @@ Last Updated: 2026-03-10
 |------|-------|
 | claude-docs/claude-code-memory.md | CLAUDE.md files, MEMORY.md, auto memory, imports, rules |
 | claude-docs/claude-code-skills.md | Skills system, SKILL.md, frontmatter, subagents, invocation |
+| claude-docs/claude-api-upgrades-2026-03-10.md | All 15 Claude API features — free vs paid, key concepts, YNAI5 use cases |
 
 ## Research Documents
 _Auto-added by /research skill as YYYY-MM-DD-topic.md_
@@ -30,6 +31,7 @@ _Stable reference material added as needed_
 
 | File | Contents |
 |------|----------|
+| 2026-03-10-remote-mcp-servers.md | Remote MCP server setup guide — Brave Search, GitHub, already-connected servers |
 
 ---
 _Claude auto-updates this index when new docs are added._

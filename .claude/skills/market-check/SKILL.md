@@ -7,19 +7,26 @@ allowed-tools: Bash, Read, Write
 
 Run a market check for: $ARGUMENTS
 
+## Accuracy Rules (Anti-Hallucination)
+- Only state facts supported by search results — never invent prices, news, or events
+- If price data is unavailable or uncertain, say "could not confirm" — never guess
+- For every news item, include the source URL and date
+- If sentiment is unclear from results, say "mixed/unclear" — do not fabricate a stance
+- If a search returns no useful results, say so rather than filling with general knowledge
+
 ## Steps
 
 1. Use WebSearch to find:
-   - Current price and 24h % change
-   - Recent news (last 48 hours) for each ticker
-   - General market sentiment (bullish/bearish/neutral)
+   - Current price and 24h % change (use CoinGecko or CoinMarketCap)
+   - Recent news (last 48 hours) for each ticker — cite source + date for each item
+   - General market sentiment (bullish/bearish/neutral) — base on actual headlines
    - Any notable events (upgrades, listings, regulation news, etc.)
 
-2. For each ticker, compile a structured report
+2. For each ticker, compile a structured report using the format below
 
 3. Save to `projects/crypto-monitoring/research/YYYY-MM-DD-[ticker].md`
 
-4. Return a quick summary in chat
+4. Return a concise summary in chat (3-5 bullet points max)
 
 ## Research File Format
 
