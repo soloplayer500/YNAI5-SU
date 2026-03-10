@@ -16,6 +16,11 @@ Last Updated: 2026-03-10 (Session 4)
 - [2026-03-10] Best candidates to add next: Brave Search MCP (2000 searches/month free) + GitHub MCP (free with token)
 - [2026-03-10] Anti-hallucination rules applied to /research and /market-check SKILL.md files
 - [2026-03-10] Decision: skip Anthropic API key features for now — not paying extra until revenue starts
+- [2026-03-10] Brave Search MCP added to Claude Code — 2000 free searches/month (key in .env.local)
+- [2026-03-10] Telegram bot created (ID: 8420532120) — price-alert.py wired for 24/7 Telegram notifications
+- [2026-03-10] Windows Task Scheduler activated — YNAI5-CryptoAlert runs 8AM + 10PM daily
+- [2026-03-10] PENDING: get Chat ID via get_chat_id.py → add TELEGRAM_CHAT_ID to .env.local to activate alerts
+- [2026-03-10] SECURITY: Regenerate Brave API keys (both) + Telegram bot token — all were shared in chat
 
 ## Preferences Summary
 See @memory/preferences.md for full list.

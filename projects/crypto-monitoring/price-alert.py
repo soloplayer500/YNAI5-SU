@@ -3,6 +3,7 @@
 Price Alert Checker — YNAI5-SU Crypto Monitoring
 Checks current prices vs alert thresholds. Uses CoinGecko free API (no key needed).
 Optional: add COINGECKO_API_KEY to .env.local for higher rate limits (demo key = 30 calls/min).
+Telegram: add TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID to .env.local for 24/7 notifications.
 Run manually: python price-alert.py
 Schedule: Windows Task Scheduler → run daily or on-demand
 
@@ -32,7 +33,9 @@ def load_env() -> dict:
 
 
 ENV = load_env()
-COINGECKO_API_KEY = ENV.get("COINGECKO_API_KEY", "")
+COINGECKO_API_KEY  = ENV.get("COINGECKO_API_KEY", "")
+TELEGRAM_BOT_TOKEN = ENV.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID   = ENV.get("TELEGRAM_CHAT_ID", "")
 
 # ── Alert Config ────────────────────────────────────────────────────────────────
 # Format: "coingecko_id": { "symbol": "TICKER", "alerts": [(price, label), ...] }
@@ -112,6 +115,29 @@ WATCHLIST = {
         "note": "Kraken: 0.00308 BABY. BTC staking protocol. Avg buy $0.028."
     },
 }
+
+# ── Telegram Notifications ──────────────────────────────────────────────────────
+
+def send_telegram(message: str):
+    """Send a message to the Telegram trading group. Fails silently if not configured."""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    try:
+        payload = json.dumps({
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": message,
+            "parse_mode": "HTML",
+        }).encode("utf-8")
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        req = urllib.request.Request(
+            url, data=payload, headers={"Content-Type": "application/json"}
+        )
+        with urllib.request.urlopen(req, timeout=10):
+            pass
+        print("[TELEGRAM] Message sent ✓")
+    except Exception as e:
+        print(f"[TELEGRAM] Send failed: {e}")
+
 
 # ── CoinGecko API ───────────────────────────────────────────────────────────────
 
@@ -278,9 +304,58 @@ def main():
     # Write to daily log file
     log_results(log_lines)
 
+    # ── Telegram Notifications ─────────────────────────────────────────────────
+    if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+        _send_telegram_report(now, prices, alerts_fired, big_moves)
+    else:
+        print("[TELEGRAM] Not configured — add TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID to .env.local")
+
     print("Tip: Run this script anytime for a quick check.")
     print("     Schedule: Windows Task Scheduler -> Action -> 'python price-alert.py'")
     print(f"     Logs saved to: projects/crypto-monitoring/logs/\n")
+
+
+def _send_telegram_report(now: str, prices: dict, alerts_fired: list, big_moves: list):
+    """Build and send the Telegram notification for this run."""
+    lines = [f"<b>📊 YNAI5 Crypto Check — {now}</b>", ""]
+
+    # Price table (compact)
+    for coin_id, config in WATCHLIST.items():
+        sym = config["symbol"]
+        data = prices.get(coin_id, {})
+        price = data.get("usd")
+        change = data.get("usd_24h_change", 0)
+        if price is None:
+            lines.append(f"  {sym}: NO DATA")
+            continue
+        sign = "+" if change >= 0 else ""
+        move = " ⚡" if abs(change) >= 8 else ""
+        lines.append(f"  <b>{sym}</b>: ${price:,.4f}  {sign}{change:.1f}%{move}")
+
+    lines.append("")
+
+    # Price alerts
+    if alerts_fired:
+        lines.append("🚨 <b>PRICE ALERTS TRIGGERED</b>")
+        for sym, price, threshold, label in alerts_fired:
+            direction = "⬇️" if "DOWN" in label else "⬆️"
+            lines.append(f"  {direction} <b>{sym}</b> @ ${price:,.4f} — {label.strip()}")
+        lines.append("")
+
+    # Big moves
+    if big_moves:
+        lines.append("⚡ <b>BIG MOVES (24h)</b>")
+        for sym, price, change, flag in big_moves:
+            sign = "+" if change >= 0 else ""
+            emoji = "🔴" if change < 0 else "🟢"
+            lines.append(f"  {emoji} <b>{sym}</b>: {sign}{change:.1f}% — {flag.strip()}")
+        lines.append("")
+
+    if not alerts_fired and not big_moves:
+        lines.append("✅ No alerts. Market normal.")
+
+    lines.append("— YNAI5 Alert Bot")
+    send_telegram("\n".join(lines))
 
 
 if __name__ == "__main__":
