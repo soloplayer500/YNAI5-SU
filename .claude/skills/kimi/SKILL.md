@@ -38,7 +38,7 @@ examples:
 ### 2. Load API Key
 Read `KIMI_API_KEY` from `.env.local` in the workspace root (`C:\Users\shema\OneDrive\Desktop\YNAI5-SU\.env.local`).
 
-If key is missing → tell user: "Add KIMI_API_KEY=your_key to .env.local. Get key at platform.moonshot.ai"
+If key is missing → tell user: "Add KIMI_API_KEY=your_key to .env.local. Get a DIRECT API key from platform.moonshot.ai → API Keys section. OpenClaw integration tokens do NOT work for direct API calls."
 
 ### 3. Build the Prompt
 Construct a context-aware prompt:
@@ -88,7 +88,7 @@ def call_kimi(task, model="kimi-k2.5"):
     }).encode()
 
     req = urllib.request.Request(
-        "https://platform.moonshot.ai/v1/chat/completions",
+        "https://api.moonshot.ai/v1/chat/completions",
         data=payload,
         headers={
             "Authorization": f"Bearer {api_key}",
