@@ -15,6 +15,7 @@ _Auto-updated. Every "remember I always prefer X" saves here with date._
 - [2026-03-09] Challenge weak reasoning — don't just agree with what I say
 - [2026-03-09] System design before execution — plan the architecture first
 - [2026-03-09] Iterative: idea → design → build → test → improve
+- [2026-03-10] API key collection: open a Notepad .txt file on Desktop for user to paste key — never ask them to type sensitive keys in chat
 
 ## Output Format
 - [2026-03-09] Structured responses: headings, bullet points, clear sections

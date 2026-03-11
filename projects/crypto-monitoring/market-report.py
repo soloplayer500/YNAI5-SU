@@ -26,6 +26,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 
@@ -58,6 +59,7 @@ KRAKEN_API_KEY     = ENV.get("KRAKEN_API_KEY", "")
 KRAKEN_API_SECRET  = ENV.get("KRAKEN_API_SECRET", "")
 BRAVE_SEARCH_KEY   = ENV.get("BRAVE_SEARCH_API_KEY", "")
 GEMINI_API_KEY     = ENV.get("GEMINI_API_KEY", "")
+OPENROUTER_API_KEY = ENV.get("OPENROUTER_API_KEY", "")
 
 SEP = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
@@ -279,8 +281,9 @@ def fetch_news(query: str = "bitcoin ethereum crypto market today", count: int =
         return []
 
 
-# ── Gemini Analysis ───────────────────────────────────────────────────────────
+# ── Gemini Analysis (fallback) ────────────────────────────────────────────────
 def gemini_analysis(context: str) -> str:
+    """Fallback analysis using Gemini Flash (free). Used if OpenRouter unavailable."""
     if not GEMINI_API_KEY:
         return ""
     try:
@@ -293,11 +296,11 @@ def gemini_analysis(context: str) -> str:
             "Sharp, direct, no fluff. You know his exact positions.\n\n"
             f"{context}\n\n"
             "Give a punchy mobile-friendly market take (max 130 words):\n"
-            "→ Line 1: What's driving price action TODAY (one sharp sentence, real drivers)\n"
-            "→ 2 bullet points: positions Shami should focus on right now (use real prices)\n"
-            "→ One action line: Watch / Trim / Hold / Buy dip at $X — be specific\n"
+            "→ Line 1: What's driving price action TODAY (one sharp sentence)\n"
+            "→ 2 bullets: positions Shami should focus on right now\n"
+            "→ One action line: Watch / Trim / Hold / Buy dip at $X\n"
             "→ Final line: Mood: 🟢 Bullish | 🔴 Bearish | 🟡 Neutral\n\n"
-            "Reference his coins by name. Use real numbers. Speak like a sharp friend, not a bot."
+            "Use real numbers. Speak like a sharp friend, not a bot."
         )
         payload = json.dumps({"contents": [{"parts": [{"text": prompt}]}]}).encode()
         req = urllib.request.Request(
@@ -309,6 +312,99 @@ def gemini_analysis(context: str) -> str:
     except Exception as e:
         print(f"[Gemini] Error: {e}")
         return ""
+
+
+# ── Kimi Analysis (primary — smarter, parallel) ───────────────────────────────
+def _kimi_call(task: str, role_prompt: str) -> str:
+    """Single Kimi K2.5 call via OpenRouter. Returns response text."""
+    payload = json.dumps({
+        "model": "moonshotai/kimi-k2.5",
+        "messages": [
+            {"role": "system", "content": role_prompt},
+            {"role": "user",   "content": task}
+        ],
+        "max_tokens": 600
+    }).encode()
+    req = urllib.request.Request(
+        "https://openrouter.ai/api/v1/chat/completions",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://ynai5.local",
+            "X-Title": "YNAI5"
+        }
+    )
+    with urllib.request.urlopen(req, timeout=30) as r:
+        result = json.loads(r.read())
+    return result["choices"][0]["message"]["content"].strip()
+
+
+def kimi_analysis(context: str, deep: bool = False) -> str:
+    """
+    Kimi-powered market analysis.
+    deep=False → single sharp take (morning/afternoon)
+    deep=True  → 3-perspective swarm consensus (evening — trader, analyst, critic)
+    """
+    if not OPENROUTER_API_KEY:
+        print("[Kimi] No OPENROUTER_API_KEY — falling back to Gemini")
+        return gemini_analysis(context)
+
+    base_system = (
+        "You are YNAI5 — Shami's personal AI trading partner based in Aruba. "
+        "Sharp, direct, mobile-friendly. Max 100 words per response. "
+        "Use real prices. Speak like a sharp friend who knows crypto."
+    )
+
+    task = (
+        f"Current portfolio data:\n{context}\n\n"
+        "Give a punchy market take:\n"
+        "→ Line 1: What's driving price action TODAY (one sentence, real drivers)\n"
+        "→ 2 bullets: which of Shami's positions need attention RIGHT NOW\n"
+        "→ Action: Watch / Trim / Hold / Buy dip at $X — be specific\n"
+        "→ Mood: 🟢 Bullish | 🔴 Bearish | 🟡 Neutral"
+    )
+
+    try:
+        if not deep:
+            # Single call — fast, cheap (~$0.0002)
+            return _kimi_call(task, base_system)
+
+        # Deep mode (evening): 3 roles in parallel → synthesize
+        roles = {
+            "trader":    base_system + " You are a crypto trader focused on technicals and momentum.",
+            "analyst":   base_system + " You are a macro analyst focused on fundamentals and market structure.",
+            "contrarian": base_system + " You are a contrarian thinker — challenge the obvious narrative."
+        }
+
+        perspectives = {}
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            futures = {
+                executor.submit(_kimi_call, task, prompt): role
+                for role, prompt in roles.items()
+            }
+            for future in as_completed(futures):
+                role = futures[future]
+                try:
+                    perspectives[role] = future.result()
+                except Exception as e:
+                    perspectives[role] = f"[error: {e}]"
+
+        print(f"  [Kimi Swarm] 3 perspectives collected → synthesizing")
+
+        synthesis_task = (
+            f"3 AI perspectives on this portfolio:\n\n"
+            f"TRADER: {perspectives.get('trader', '')}\n\n"
+            f"ANALYST: {perspectives.get('analyst', '')}\n\n"
+            f"CONTRARIAN: {perspectives.get('contrarian', '')}\n\n"
+            "Synthesize into ONE actionable take (max 120 words). "
+            "Flag any disagreements. End with overall Mood emoji."
+        )
+        return _kimi_call(synthesis_task, base_system)
+
+    except Exception as e:
+        print(f"[Kimi] Error: {e} — falling back to Gemini")
+        return gemini_analysis(context)
 
 
 # ── Telegram ──────────────────────────────────────────────────────────────────
@@ -546,9 +642,12 @@ def main():
     print("  [4/5] News via Brave Search...")
     news = fetch_news("bitcoin ethereum crypto market today analysis")
 
-    print("  [5/5] Gemini AI analysis...")
+    # Deep mode = evening report (richer 3-perspective swarm)
+    deep_mode = h >= 17
+    mode_label = "Kimi Swarm 3x" if deep_mode else "Kimi"
+    print(f"  [5/5] {mode_label} AI analysis...")
     ctx      = build_context(prices, signals, news)
-    analysis = gemini_analysis(ctx)
+    analysis = kimi_analysis(ctx, deep=deep_mode)
 
     report = build_report(
         now_str, session_label, prices, kraken_rows,

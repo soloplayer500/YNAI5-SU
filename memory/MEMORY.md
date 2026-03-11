@@ -1,7 +1,7 @@
 # Memory Index
 _Claude auto-updates this file. Keep under 200 lines. Overflow goes to topic files._
 
-Last Updated: 2026-03-10 (Session 5)
+Last Updated: 2026-03-10 (Session 6)
 
 ---
 
@@ -29,6 +29,8 @@ Last Updated: 2026-03-10 (Session 5)
 - [2026-03-10] Kimi K2.5 researched — Moonshot AI, open-source, agent swarms (PARL, 100 parallel sub-agents), 256K context, $0.45/M input via OpenRouter. /kimi skill created.
 - [2026-03-10] market-report.py v2 — RSI from Kraken OHLC (free), better section order, visual separators
 - [2026-03-10] monitor-loop.py created — 15min heartbeat, threshold+big-move alerts, no Docker needed
+- [2026-03-10] OpenRouter API key added — OPENROUTER_API_KEY in .env.local. Kimi K2.5 tested LIVE ✅ ($0.0002/call)
+- [2026-03-10] API key input method: open Notepad .txt on Desktop, user pastes key there — never in chat
 
 ## Preferences Summary
 See @memory/preferences.md for full list.
@@ -76,3 +78,9 @@ See @memory/decisions-log.md
 - OPN entry: ~$0.31, alerts at $0.18 (buy) / $0.45 / $0.60 (sell zones)
 - March 2027 cliff: 425M OPN tokens unlock — monitor closely
 - Price alert script: `python projects/crypto-monitoring/price-alert.py`
+- [2026-03-11] Laptop cleaned: WildTangent, ExpressVPN, HP bloatware (7 apps) removed, McAfee uninstalling
+- [2026-03-11] Startup cleaned: 4 entries removed (HP launcher, Edge auto-launch, Notion, NordVPN) — only OneDrive remains
+- [2026-03-11] Freed ~900MB: temp folder (557MB) + Downloads cleanup (151MB) + npm cache (201MB)
+- [2026-03-11] Telegram-Claude bridge LIVE: @SoloClaude5_bot now calls Claude Haiku API. Runs at startup via startup folder bat
+- [2026-03-11] Virtual RAM: SET_VIRTUAL_RAM_AS_ADMIN.vbs on Desktop (run as admin, then restart)
+- [2026-03-11] ANTHROPIC_API_KEY added to .env.local — bridge uses claude-haiku-4-5-20251001 (~$0.0005/convo)
