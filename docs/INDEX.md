@@ -1,7 +1,7 @@
 # Documentation Index
 _Update this file whenever a new doc is added._
 
-Last Updated: 2026-03-10 (Session 4)
+Last Updated: 2026-03-10 (Session 5)
 
 ---
 
@@ -25,6 +25,7 @@ _Auto-added by /research skill as YYYY-MM-DD-topic.md_
 | 2026-03-09 | ChatGPT + Sora API + OpenAI MCP — connection options | 2026-03-09-chatgpt-sora-api-mcp.md |
 | 2026-03-09 | InVideo AI review — tool test, verdict, future use case | 2026-03-09-invideo-ai-review.md |
 | 2026-03-10 | TradingView webhook architecture — full build plan + alternatives | 2026-03-10-tradingview-webhook-architecture.md |
+| 2026-03-10 | Crypto market dynamics — BTC dominance, amplification effect, capital rotation, portfolio applied | 2026-03-10-crypto-market-dynamics.txt |
 
 ## Reference Files
 _Stable reference material added as needed_

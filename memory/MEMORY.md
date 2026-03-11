@@ -1,7 +1,7 @@
 # Memory Index
 _Claude auto-updates this file. Keep under 200 lines. Overflow goes to topic files._
 
-Last Updated: 2026-03-10 (Session 4)
+Last Updated: 2026-03-10 (Session 5)
 
 ---
 
@@ -23,6 +23,9 @@ Last Updated: 2026-03-10 (Session 4)
 - [2026-03-10] market-report.py built — CoinGecko + Kraken + Brave News + Gemini AI + Telegram, 3x/day
 - [2026-03-10] Task Scheduler: 3 tasks — YNAI5-Report-Morning(8AM), Evening(6PM), Night(9PM)
 - [2026-03-10] SECURITY: Regenerate Brave API keys (both) + Telegram bot token — all were shared in chat
+- [2026-03-10] BTC market structure explained: reserve asset → institutional flow → amplification effect → capital rotation cycle
+- [2026-03-10] Amplification effect: alts move 2–5x BTC % moves (liquidity math — small cap pool vs BTC ocean)
+- [2026-03-10] NotebookLM study doc created: docs/2026-03-10-crypto-market-dynamics.txt (10 sections + portfolio applied)
 
 ## Preferences Summary
 See @memory/preferences.md for full list.
@@ -54,6 +57,7 @@ See @memory/decisions-log.md
 | 2026-03-09 | Skills, APIs, OPN research, Gemini sub-agent | sessions/2026-03-09-session-2.md |
 | 2026-03-10 | Kraken API skill + price alert system (8 tickers) | sessions/2026-03-10-session-3.md |
 | 2026-03-10 | Claude API upgrades — 15 docs reviewed, free wins applied | sessions/2026-03-10-session-4.md |
+| 2026-03-10 | Portfolio snapshot, BTC market mechanics, NotebookLM crypto study doc | sessions/2026-03-10-session-5.md |
 
 ## Docs Added
 | Date | Topic | File |
@@ -63,6 +67,7 @@ See @memory/decisions-log.md
 | 2026-03-09 | Google APIs integration — Gemini, YouTube, Gmail free tiers | docs/2026-03-09-google-apis-integration.md |
 | 2026-03-10 | All 15 Claude API upgrades — quick reference (free vs paid) | docs/claude-docs/claude-api-upgrades-2026-03-10.md |
 | 2026-03-10 | Remote MCP servers setup guide — Brave Search, GitHub | docs/2026-03-10-remote-mcp-servers.md |
+| 2026-03-10 | Crypto market dynamics — BTC dominance, amplification effect, portfolio applied | docs/2026-03-10-crypto-market-dynamics.txt |
 
 ## Crypto Monitoring
 - OPN entry: ~$0.31, alerts at $0.18 (buy) / $0.45 / $0.60 (sell zones)
