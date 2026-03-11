@@ -86,6 +86,7 @@ YNAI5-SU/
 - `/voice-gen [text]` — ElevenLabs TTS → MP3 saved to projects/social-media-automation/audio/
 - `/prompt-gen [platform] [type] [subject] [style]` — structured 8-layer AI video/image prompt generation
 - `/gemini [task] [input] [--model pro] [--save]` — Google Gemini sub-agent (Flash 1500/day | Pro 100/day free)
+- `/kimi [task] [input] [--model k2.5|k2-thinking] [--save]` — Kimi K2.5 sub-agent (Moonshot AI — agent swarms, 256K context, vision, parallel research)
 - `/email-check [query]` — search Gmail via MCP (brand deals, notifications, crypto alerts)
 - `/kraken [balance|price|trades|orders]` — Kraken exchange API — portfolio balance, live prices, trade history
 

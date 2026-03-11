@@ -26,6 +26,7 @@ _Auto-added by /research skill as YYYY-MM-DD-topic.md_
 | 2026-03-09 | InVideo AI review — tool test, verdict, future use case | 2026-03-09-invideo-ai-review.md |
 | 2026-03-10 | TradingView webhook architecture — full build plan + alternatives | 2026-03-10-tradingview-webhook-architecture.md |
 | 2026-03-10 | Crypto market dynamics — BTC dominance, amplification effect, capital rotation, portfolio applied | 2026-03-10-crypto-market-dynamics.txt |
+| 2026-03-10 | Kimi AI (Moonshot AI) — agent swarms, PARL, API, YNAI5 integration blueprint | 2026-03-10-kimi-ai-agent-swarms.md |
 
 ## Reference Files
 _Stable reference material added as needed_

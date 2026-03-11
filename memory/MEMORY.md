@@ -26,6 +26,9 @@ Last Updated: 2026-03-10 (Session 5)
 - [2026-03-10] BTC market structure explained: reserve asset → institutional flow → amplification effect → capital rotation cycle
 - [2026-03-10] Amplification effect: alts move 2–5x BTC % moves (liquidity math — small cap pool vs BTC ocean)
 - [2026-03-10] NotebookLM study doc created: docs/2026-03-10-crypto-market-dynamics.txt (10 sections + portfolio applied)
+- [2026-03-10] Kimi K2.5 researched — Moonshot AI, open-source, agent swarms (PARL, 100 parallel sub-agents), 256K context, $0.45/M input via OpenRouter. /kimi skill created.
+- [2026-03-10] market-report.py v2 — RSI from Kraken OHLC (free), better section order, visual separators
+- [2026-03-10] monitor-loop.py created — 15min heartbeat, threshold+big-move alerts, no Docker needed
 
 ## Preferences Summary
 See @memory/preferences.md for full list.
@@ -47,8 +50,8 @@ See @memory/decisions-log.md
 | patterns.md | Recurring behaviors and workflow insights |
 | decisions-log.md | Chronological decision log |
 
-## Skills Available (12 total)
-/research, /session-close, /weekly-review, /decision, /remember, /market-check, /project-update, /voice-gen, /prompt-gen, /gemini, /email-check, /kraken
+## Skills Available (13 total)
+/research, /session-close, /weekly-review, /decision, /remember, /market-check, /project-update, /voice-gen, /prompt-gen, /gemini, /kimi, /email-check, /kraken
 
 ## Session Index
 | Date | Focus | File |
