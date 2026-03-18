@@ -14,16 +14,16 @@ Your portfolio JSON is committed to GitHub every 30 minutes by GitHub Actions. O
 
 ```
 Portfolio data:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/projects/crypto-monitoring/kraken/kraken_portfolio.json
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/projects/crypto-monitoring/kraken/kraken_portfolio.json
 
 Memory index:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/memory/MEMORY.md
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/memory/MEMORY.md
 
 Preferences:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/memory/preferences.md
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/memory/preferences.md
 
 Current priorities:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/context/current-priorities.md
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/context/current-priorities.md
 ```
 
 **Replace `YOUR_USERNAME/YOUR_REPO`** with your actual GitHub repo path.
@@ -58,18 +58,18 @@ BTC (avg buy $90,111), ETH ($3,151), SOL ($151), OPN ($0.33), EIGEN ($0.30), BAB
 
 LIVE PORTFOLIO DATA:
 When asked about my portfolio, balances, holdings, P&L, or orders — fetch this URL and read the JSON:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/projects/crypto-monitoring/kraken/kraken_portfolio.json
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/projects/crypto-monitoring/kraken/kraken_portfolio.json
 
 MEMORY & PREFERENCES:
 When asked about my preferences, past decisions, or workspace context:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/memory/MEMORY.md
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/memory/preferences.md
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/memory/MEMORY.md
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/memory/preferences.md
 
 CURRENT PRIORITIES:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/context/current-priorities.md
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/context/current-priorities.md
 
 PREDICTION ACCURACY:
-https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/projects/crypto-monitoring/kraken/performance.json
+https://raw.githubusercontent.com/soloplayer500/YNAI5-SU/master/projects/crypto-monitoring/kraken/performance.json
 
 RESPONSE STYLE:
 - Professional but friendly, no filler, high signal, structured headings
@@ -148,7 +148,7 @@ This appends directly to `memory/MEMORY.md` — synced to GitHub — visible in 
 
 ## Troubleshooting
 
-**"I can't fetch the URL"** — Make sure your GitHub repo is **public** (or Claude has access). The raw URL works with public repos only.
+**"I can't fetch the URL"** — The repo `soloplayer500/YNAI5-SU` is private. Go to GitHub → Settings → Change visibility → Make public. Raw GitHub URLs only work on public repos. Claude.ai cannot access private repos.
 
 **"Data is old"** — GitHub Actions runs every 30 min. If the workflow is failing, check the Actions tab on GitHub.
 

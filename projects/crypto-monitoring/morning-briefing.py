@@ -287,25 +287,33 @@ def _format_telegram_briefing(fields: dict, perf: dict | None, news: list) -> st
     news_lines = "\n".join(f"  • {h}" for h in news[:3])
 
     lines = [
-        f"🌅 <b>YNAI5 Morning Brief</b> — {day_name}",
+        f"🌅 <b>YNAI5 Brief</b>  ·  {day_name}",
         "",
-        f"📰 {fields['market_mood']}" if fields['market_mood'] else "",
-        f"💼 {fields['portfolio_status']}" if fields['portfolio_status'] else "",
-        f"🎯 <b>Opportunity:</b> {fields['opportunity']}" if fields['opportunity'] else "",
-        f"⚠️ <b>Risk:</b> {fields['risk']}" if fields['risk'] else "",
     ]
 
-    if fields.get("prediction_suggestion") and fields["prediction_suggestion"].lower() not in ("none", "n/a", ""):
-        lines.append(f"📊 <b>Log today:</b> {fields['prediction_suggestion']}")
+    if fields['portfolio_status']:
+        lines.append(f"💼 {fields['portfolio_status']}")
+    if fields['market_mood']:
+        lines.append(f"📈 {fields['market_mood']}")
+
+    if fields['opportunity'] or fields['risk']:
+        lines.append("")
+    if fields['opportunity']:
+        lines.append(f"🎯 <b>Opportunity:</b> {fields['opportunity']}")
+    if fields['risk']:
+        lines.append(f"⚠️ <b>Risk:</b> {fields['risk']}")
+
+    pred = fields.get("prediction_suggestion", "")
+    if pred and pred.lower() not in ("none", "n/a", ""):
+        lines += ["", f"📊 <b>Log today:</b> {pred}"]
 
     if news:
-        lines += ["", "📰 <b>News:</b>", news_lines]
+        lines += ["", "📰 " + "  ·  ".join(h[:60] for h in news[:2])]
 
     lines += [
         "",
-        f"🎲 Accuracy: {acc}  |  {streak_s}",
-        "",
-        "📱 /portfolio for full view",
+        f"🎲 {acc}  {streak_s}",
+        "/portfolio",
     ]
 
     msg = "\n".join(l for l in lines if l is not None)

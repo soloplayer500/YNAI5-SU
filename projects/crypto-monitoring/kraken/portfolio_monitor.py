@@ -426,41 +426,52 @@ def _send_telegram_push(portfolio: dict):
     open_orders = p["open_orders"]
     trades      = p["recent_trades"]
 
-    lines = [
-        f"📊 <b>Portfolio Sync</b> — {datetime.now(timezone.utc).strftime('%H:%M UTC')}",
-        f"━━━━━━━━━━━━━━━━━━",
-        f"💰 <b>Total: ${p['total_usd']:,.2f}</b>",
+    time_s = datetime.now(timezone.utc).strftime("%H:%M UTC")
+    lines  = [
+        f"💼 <b>Portfolio</b>  ·  <b>${p['total_usd']:,.0f}</b>  ·  {time_s}",
         "",
     ]
 
-    for b in balances[:6]:  # max 6 assets
-        sym   = b.get("symbol", b["asset"])
-        qty   = b["qty"]
-        val   = b["usd_value"]
-        pnl   = b.get("pnl_pct")
-        ch24  = b.get("change_24h_pct")
-        pnl_s = f"  [{'+' if pnl >= 0 else ''}{pnl:.0f}%]" if pnl is not None else ""
-        ch_s  = f"  {'+' if ch24 >= 0 else ''}{ch24:.1f}% 24h" if ch24 is not None else ""
-        qty_s = f"{qty:.6f}".rstrip("0").rstrip(".")
-        lines.append(f"<code>{sym:<6} {qty_s:<12}  ${val:>9,.2f}{pnl_s}{ch_s}</code>")
+    for b in balances[:7]:
+        sym  = b.get("symbol", b["asset"])
+        val  = b["usd_value"]
+        pnl  = b.get("pnl_pct")
+        ch24 = b.get("change_24h_pct")
+
+        # P&L indicator (green = profitable vs avg buy, red = underwater)
+        if pnl is not None:
+            dot   = "🟢" if pnl >= 0 else "🔴"
+            pnl_s = f"{dot} {'+' if pnl >= 0 else ''}{pnl:.1f}%"
+        else:
+            pnl_s = "⚪ —"
+
+        # 24h direction
+        if ch24 is not None:
+            arrow = "▲" if ch24 >= 0 else "▼"
+            ch_s  = f"{arrow}{abs(ch24):.1f}%"
+        else:
+            ch_s = ""
+
+        lines.append(f"<b>{sym:<5}</b>  ${val:>7,.0f}  {pnl_s:<14}  {ch_s}")
 
     if p["stablecoins_usd"] > 0:
-        lines.append(f"<code>{'USD':<6} {'(stable)':<12}  ${p['stablecoins_usd']:>9,.2f}</code>")
+        lines.append(f"💵  Stable: ${p['stablecoins_usd']:,.0f}")
 
     lines.append("")
+
+    # Orders + last trade on one line each
     if open_orders:
-        lines.append(f"📋 Open orders: {len(open_orders)}")
-        for o in open_orders[:3]:
-            lines.append(f"  {o['type'].upper()} {o['pair']} @ ${o['price']:,.4f}  ({o['age_hours']:.0f}h)")
+        o     = open_orders[0]
+        lines.append(f"📋  {len(open_orders)} order{'s' if len(open_orders) > 1 else ''}  ·  {o['type'].upper()} {o['pair']} @ ${o['price']:,.2f}")
     else:
-        lines.append("📋 No open orders")
+        lines.append("📋  No open orders")
 
     if trades:
         last = trades[0]
-        lines.append(f"🕐 Last trade: {last['type'].upper()} {last['pair']} @ ${last['price_executed']:,.2f}  {last['closed_at'][:10]}")
+        lines.append(f"🕐  Last: {last['type'].upper()} {last['pair']} @ ${last['price_executed']:,.0f}  ·  {last['closed_at'][:10]}")
 
     lines.append("")
-    lines.append("📱 /portfolio for full view")
+    lines.append("/portfolio  /orders  /positions")
 
     msg = "\n".join(lines)
     # Telegram 4096 char limit
