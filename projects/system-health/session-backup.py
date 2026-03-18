@@ -81,19 +81,84 @@ def backup_age_hours() -> float | None:
 
 # ── Core: Save ────────────────────────────────────────────────────────────────
 
+def read_current_priorities() -> str:
+    """Read current-priorities.md for context."""
+    try:
+        p = WORKSPACE / "context" / "current-priorities.md"
+        if p.exists():
+            lines = p.read_text(encoding="utf-8").splitlines()
+            # Return first 20 lines
+            return "\n".join(lines[:20])
+    except Exception:
+        pass
+    return "AI Social Media Automation Pipeline (default)"
+
+
+def read_open_actions() -> str:
+    """Read actions/ folder for open TODO items."""
+    actions_dir = WORKSPACE / "actions"
+    items = []
+    try:
+        if actions_dir.exists():
+            for f in actions_dir.iterdir():
+                if f.suffix in (".md", ".txt") and f.stat().st_size > 0:
+                    lines = f.read_text(encoding="utf-8").splitlines()
+                    items.append(f"[{f.name}] {lines[0][:80] if lines else '(empty)'}")
+    except Exception:
+        pass
+    return "\n".join(items) if items else "No open action files found."
+
+
+def read_session_state_context() -> str:
+    """Read the explicit current-session-state.md if it exists."""
+    try:
+        p = WORKSPACE / "context" / "current-session-state.md"
+        if p.exists():
+            return p.read_text(encoding="utf-8")
+    except Exception:
+        pass
+    return ""
+
+
+def write_session_state(timestamp: str, trigger: str, resume_prompt: str) -> None:
+    """Write context/current-session-state.md so CLAUDE.md can import it."""
+    state_file = WORKSPACE / "context" / "current-session-state.md"
+    try:
+        content = (
+            f"# Current Session State\n"
+            f"_Auto-updated by session-backup.py at {timestamp} (trigger: {trigger})_\n\n"
+            f"## Last Session Context\n\n"
+            f"{resume_prompt}\n\n"
+            f"## What To Do First\n"
+            f"1. Check `actions/` for open TODO items\n"
+            f"2. Check `context/current-priorities.md` for top priority\n"
+            f"3. Resume from where the last session left off\n"
+        )
+        state_file.write_text(content, encoding="utf-8")
+    except Exception as e:
+        log(f"WARNING: Could not write current-session-state.md — {e}")
+
+
 def save_backup(trigger: str, hook_data: dict) -> None:
     """Write session-backup.md and session-state.json."""
     ensure_backup_dir()
     timestamp = now_iso()
 
+    # ── Gather rich context ───────────────────────────────────────────────────
+    priorities = read_current_priorities()
+    open_actions = read_open_actions()
+
     # ── Build resume prompt ───────────────────────────────────────────────────
     resume_prompt = (
         f"Session backup from {timestamp} (trigger: {trigger}).\n"
-        f"Workspace: C:/Users/shema/OneDrive/Desktop/YNAI5-SU\n"
-        f"Top priority: AI Social Media Automation Pipeline.\n"
-        f"Check memory/MEMORY.md and actions/ for current state.\n"
-        f"Run /health-check to verify system. What were we working on?"
+        f"Workspace: C:/Users/shema/OneDrive/Desktop/YNAI5-SU\n\n"
+        f"--- CURRENT PRIORITIES ---\n{priorities}\n\n"
+        f"--- OPEN ACTIONS ---\n{open_actions}\n\n"
+        f"Run /health-check to verify system. Continue from context/current-session-state.md."
     )
+
+    # ── Write persistent state file ───────────────────────────────────────────
+    write_session_state(timestamp, trigger, resume_prompt)
 
     # ── Build markdown backup ─────────────────────────────────────────────────
     md_lines = [

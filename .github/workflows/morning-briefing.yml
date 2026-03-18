@@ -1,0 +1,64 @@
+name: YNAI5 Morning Briefing
+
+on:
+  schedule:
+    # 9:00 AM AST = 13:00 UTC daily
+    - cron: '0 13 * * *'
+  workflow_dispatch:  # Manual trigger for testing
+
+jobs:
+  morning-briefing:
+    name: Generate Morning Briefing
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install krakenex requests anthropic
+
+      - name: Write .env.local from GitHub Secrets
+        run: |
+          cat > .env.local <<'EOF'
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          COINGECKO_API_KEY=${{ secrets.COINGECKO_API_KEY }}
+          KRAKEN_PORTFOLIO_API_KEY=${{ secrets.KRAKEN_PORTFOLIO_API_KEY }}
+          KRAKEN_PORTFOLIO_API_SECRET=${{ secrets.KRAKEN_PORTFOLIO_API_SECRET }}
+          BRAVE_SEARCH_API_KEY=${{ secrets.BRAVE_SEARCH_API_KEY }}
+          ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}
+          EOF
+
+      - name: Refresh portfolio data
+        run: python projects/crypto-monitoring/kraken/portfolio_monitor.py
+
+      - name: Generate and send morning briefing
+        run: python projects/crypto-monitoring/morning-briefing.py
+
+      - name: Score due predictions
+        run: python projects/crypto-monitoring/kraken/prediction_tracker.py --score
+        continue-on-error: true
+
+      - name: Commit updated data
+        run: |
+          git config user.name "YNAI5 Morning Bot"
+          git config user.email "morning@ynai5.local"
+
+          git add projects/crypto-monitoring/kraken/kraken_portfolio.json || true
+          git add projects/crypto-monitoring/kraken/predictions.json || true
+          git add projects/crypto-monitoring/kraken/performance.json || true
+          git add projects/crypto-monitoring/kraken/.alert-state.json || true
+
+          git diff --staged --quiet || git commit -m "chore: morning briefing $(date -u '+%Y-%m-%d')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

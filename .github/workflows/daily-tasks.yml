@@ -1,0 +1,62 @@
+name: YNAI5 Daily Tasks
+
+on:
+  schedule:
+    # 9AM AST (1PM UTC) daily — decision review + task agent + gmail triage
+    - cron: '0 13 * * *'
+    # 3PM AST (7PM UTC) — task agent second run
+    - cron: '0 19 * * *'
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'Run specific task (decision-review|task-work|gmail-triage|all)'
+        default: 'all'
+
+jobs:
+  daily-tasks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout workspace
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic python-dotenv requests
+
+      - name: Create .env.local from secrets
+        run: |
+          echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" >> .env.local
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env.local
+          echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> .env.local
+
+      - name: Run decision review check
+        if: ${{ github.event.inputs.task == 'all' || github.event.inputs.task == 'decision-review' || github.event_name == 'schedule' }}
+        run: python tools/decision-review.py --check
+        continue-on-error: true
+
+      - name: Work next task (autonomous agent)
+        if: ${{ github.event.inputs.task == 'all' || github.event.inputs.task == 'task-work' || github.event_name == 'schedule' }}
+        run: |
+          python tools/task-manager.py --list
+          python tools/task-manager.py --work
+        continue-on-error: true
+
+      - name: Queue Gmail triage
+        if: ${{ github.event.inputs.task == 'all' || github.event.inputs.task == 'gmail-triage' || github.event_name == 'schedule' }}
+        run: python tools/gmail-manager.py
+        continue-on-error: true
+
+      - name: Commit outputs
+        run: |
+          git config user.email "github-actions@ynai5.local"
+          git config user.name "YNAI5 Daily Agent"
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: daily task outputs $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
+        continue-on-error: true

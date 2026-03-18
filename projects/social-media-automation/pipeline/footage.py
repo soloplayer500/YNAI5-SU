@@ -21,7 +21,10 @@ def _search(query: str, orientation: str = "portrait") -> list:
     })
     req = urllib.request.Request(
         f"{PEXELS_URL}?{params}",
-        headers={"Authorization": config.PEXELS_API_KEY}
+        headers={
+            "Authorization": config.PEXELS_API_KEY,
+            "User-Agent": "YNAI5-Pipeline/1.0",
+        }
     )
     try:
         with urllib.request.urlopen(req, timeout=15) as r:

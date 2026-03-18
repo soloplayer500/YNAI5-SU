@@ -1,0 +1,5 @@
+date,decision,reasoning,expected_outcome,review_date,status,actual_outcome
+2026-03-09,Claude as sole full assistant — others become sub-agents via API,Simpler faster no context switching. Other AIs added as sub-agents when needed,Claude handles everything effectively; sub-agents when needed,2026-04-09,active,
+2026-03-09,YNAI5-SU workspace architecture — local-first markdown + git,Full local control version history persistent memory modular expansion,Workspace grows with each session and knowledge compounds,2026-04-09,active,
+2026-03-09,TikTok niche MVP — AI News but Funny/Relatable format,Fastest path to first upload. Algorithm rewards authentic casual content,First upload within 2 weeks; audience data gathered,2026-04-09,active,
+2026-03-10,Skip Anthropic API paid features until revenue starts,Budget-conscious — not paying extra until first revenue milestone hit,Revenue first then upgrade API tier,2026-05-01,active,

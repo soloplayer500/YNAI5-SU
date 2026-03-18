@@ -1,0 +1,41 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "price-alert",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["projects/crypto-monitoring/price-alert.py"],
+      "port": 8001
+    },
+    {
+      "name": "telegram-bridge",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["projects/personal-ai-infrastructure/telegram-claude-bridge.py"],
+      "port": 8002
+    },
+    {
+      "name": "monitor-loop",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["projects/crypto-monitoring/monitor-loop.py"],
+      "port": 8003
+    },
+    {
+      "name": "market-report",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["projects/crypto-monitoring/market-report.py"],
+      "port": 8004
+    },
+    {
+      "name": "autonomous-agent",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["projects/ralph-automation/autonomous-agent.py"],
+      "port": 8005
+    },
+    {
+      "name": "health-check",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["projects/system-health/health-check.py", "--telegram"],
+      "port": 8006
+    }
+  ]
+}

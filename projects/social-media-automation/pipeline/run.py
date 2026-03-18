@@ -1,16 +1,30 @@
 """
 run.py — YNAI5 Auto-Video Pipeline Orchestrator.
 Runs daily via Windows Task Scheduler at 10:00 AM.
-Chain: trend -> script -> voice -> footage -> assemble -> notify
+Chain: cleanup -> trend -> script -> voice -> footage -> assemble -> notify
 """
 import sys
 import traceback
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config
 import notify
+
+
+def _cleanup_old_output(days: int = 3) -> None:
+    """Delete MP4s in output/ older than N days to free disk space."""
+    cutoff = datetime.now() - timedelta(days=days)
+    deleted = []
+    for mp4 in config.OUTPUT_DIR.glob("*.mp4"):
+        if datetime.fromtimestamp(mp4.stat().st_mtime) < cutoff:
+            mp4.unlink()
+            deleted.append(mp4.name)
+    if deleted:
+        print(f"  [cleanup] Deleted {len(deleted)} old video(s): {', '.join(deleted)}")
+    else:
+        print(f"  [cleanup] Output folder clean (no files older than {days} days)")
 
 
 def run():
@@ -20,6 +34,11 @@ def run():
     print(f"{'='*55}\n")
 
     slug = trend = script = vo_path = clip_paths = output = None
+
+    # Step 0: Cleanup old outputs
+    print("Step 0/6 -- Auto-Cleanup (videos older than 3 days)")
+    _cleanup_old_output(days=3)
+    print()
 
     # Step 1: Trend
     try:

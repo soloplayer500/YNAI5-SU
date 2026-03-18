@@ -1,0 +1,57 @@
+
+=======================================================
+YNAI5 Auto-Video Pipeline -- 2026-03-18 10:00
+=======================================================
+
+Step 0/6 -- Auto-Cleanup (videos older than 3 days)
+  [cleanup] Output folder clean (no files older than 3 days)
+
+Step 1/6 -- Trend Check
+[trend] Running 3 Brave searches...
+  [trend] Saved -> 2026-03-18-trends.md
+  Topic: Tech stocks today: Microsoft shakes up AI leadership, Nvidia's Jensen Huang kicks off GTC event
+  Virality: 8.2/10
+
+Step 2/6 -- Script Generation
+[script] Calling Claude Haiku...
+  [script] Saved -> 2026-03-18-tech-stocks-today-microsoft-shakes-up-ai.md
+  Hook: NVIDIA just spent $20 billion on a company most of you have 
+  Shots: 6
+
+Step 3/6 -- Voice Generation
+[voice] Calling ElevenLabs...
+  [voice] Saved -> 2026-03-18-tech-stocks-today-microsoft-shakes-up-ai.mp3 (586 KB)
+  Audio: 2026-03-18-tech-stocks-today-microsoft-shakes-up-ai.mp3
+
+Step 4/6 -- Footage Download
+  [footage] Shot 0: searching 'nvidia headquarters building'...
+  [footage] Shot 1: searching 'business team meeting corporate'...
+  [footage] Shot 2: searching 'fast internet loading speed'...
+  [footage] Shot 3: searching 'chatgpt interface typing response'...
+  [footage] Shot 4: searching 'microsoft office building'...
+  [footage] Shot 5: searching 'stock market trading screen'...
+[footage] Downloaded 6/6 clips -> 2026-03-18-tech-stocks-today-microsoft-shakes-up-ai/
+  6/6 clips downloaded
+
+Step 5/6 -- Video Assembly
+[assemble] Starting FFmpeg assembly...
+  [assemble] VO=37.5s | raw shots=19.5s | scaled=38.0s (x1.95)
+  [assemble] Shot 1/6: $20B Groq acquisition
+  [assemble] Shot 2/6: Founder + President hired
+  [assemble] Shot 3/6: Speed = Money
+  [assemble] Shot 4/6: Inferencing matters
+  [assemble] Shot 5/6: Microsoft power moves
+  [assemble] Shot 6/6: Who wins this war?
+  [assemble] Concatenating...
+  [assemble] Muxing with VO audio...
+[assemble] Done -> 2026-03-18-tech-stocks-today-microsoft-shakes-up-ai-final.mp4 (10.0 MB)
+  Output: 2026-03-18-tech-stocks-today-microsoft-shakes-up-ai-final.mp4
+
+Step 6/6 -- Telegram Notification
+  [notify] Telegram sent OK
+
+=======================================================
+Pipeline complete in 54s
+Output: C:\Users\shema\OneDrive\Desktop\YNAI5-SU\projects\social-media-automation\output\2026-03-18-tech-stocks-today-microsoft-shakes-up-ai-final.mp4
+=======================================================
+

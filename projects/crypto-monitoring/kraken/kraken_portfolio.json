@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-03-18T17:49:08Z",
+  "exchange": "kraken",
+  "cache_hit": false,
+  "portfolio": {
+    "total_usd": 0.0,
+    "stablecoins_usd": 0.0,
+    "balances": [],
+    "open_orders": [],
+    "recent_trades": [],
+    "prices": {}
+  }
+}

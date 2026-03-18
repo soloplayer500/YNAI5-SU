@@ -1,7 +1,7 @@
 # Projects Index
 _Update this file whenever a new project is created._
 
-Last Updated: 2026-03-12 (Session 8 — Tasks 7-9)
+Last Updated: 2026-03-18 (Session 11 — Kraken Portfolio Monitor + Crypto Intelligence)
 
 ---
 
@@ -10,9 +10,10 @@ Last Updated: 2026-03-12 (Session 8 — Tasks 7-9)
 | Project | Status | Priority | Folder |
 |---------|--------|----------|--------|
 | PsycheCore | 🔨 Building | High | [psychecore/](psychecore/) |
-| Crypto Monitoring | 🧪 Concept/Dev | High | [crypto-monitoring/](crypto-monitoring/) |
+| Crypto Monitoring | 🔨 Building | High | [crypto-monitoring/](crypto-monitoring/) |
+| Kraken Portfolio Monitor | 🔨 Building | High | [crypto-monitoring/kraken/](crypto-monitoring/kraken/) |
 | Multi-AI Prompt Optimization | 🔨 Active Dev | Medium | [multi-ai-prompt-optimization/](multi-ai-prompt-optimization/) |
-| Social Media Automation | 📋 Strategy Phase | Medium | [social-media-automation/](social-media-automation/) |
+| Social Media Automation | 🔨 Building | High | [social-media-automation/](social-media-automation/) |
 | Personal AI Infrastructure | 🔄 Ongoing | Low | [personal-ai-infrastructure/](personal-ai-infrastructure/) |
 | Ralph Automation | 🔨 Building | High | [ralph-automation/](ralph-automation/) |
 | System Health | ✅ Active | High | [system-health/](system-health/) |

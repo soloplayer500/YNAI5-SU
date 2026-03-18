@@ -1,0 +1,63 @@
+name: Kraken Portfolio Sync
+
+on:
+  schedule:
+    # Every 30 minutes — ~1-2 min runtime = ~60-90 min/month (well within 2000 free)
+    - cron: '*/30 * * * *'
+  workflow_dispatch:  # Manual trigger from Actions tab for testing
+
+jobs:
+  portfolio-sync:
+    name: Sync Kraken Portfolio
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install krakenex requests anthropic
+
+      - name: Write .env.local from GitHub Secrets
+        run: |
+          cat > .env.local <<'EOF'
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          COINGECKO_API_KEY=${{ secrets.COINGECKO_API_KEY }}
+          KRAKEN_PORTFOLIO_API_KEY=${{ secrets.KRAKEN_PORTFOLIO_API_KEY }}
+          KRAKEN_PORTFOLIO_API_SECRET=${{ secrets.KRAKEN_PORTFOLIO_API_SECRET }}
+          ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}
+          EOF
+
+      - name: Run portfolio monitor + AI analysis
+        run: python projects/crypto-monitoring/kraken/portfolio_monitor.py
+
+      - name: Score due predictions
+        run: python projects/crypto-monitoring/kraken/prediction_tracker.py --score
+        continue-on-error: true
+
+      - name: Commit portfolio snapshot
+        run: |
+          git config user.name "YNAI5 Portfolio Bot"
+          git config user.email "portfolio-bot@ynai5.local"
+
+          # Stage specific files only (bypass any .gitignore rules)
+          git add projects/crypto-monitoring/kraken/kraken_portfolio.json || true
+          git add projects/crypto-monitoring/kraken/performance.json || true
+          git add projects/crypto-monitoring/kraken/predictions.json || true
+          git add projects/crypto-monitoring/kraken/.alert-state.json || true
+          git add projects/crypto-monitoring/telegram-sessions/ || true
+
+          # Only commit if there are actual changes
+          git diff --staged --quiet || git commit -m "chore: portfolio sync $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

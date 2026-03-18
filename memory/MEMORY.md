@@ -52,8 +52,10 @@ See @memory/decisions-log.md
 | patterns.md | Recurring behaviors and workflow insights |
 | decisions-log.md | Chronological decision log |
 
-## Skills Available (16 total)
+## Skills Available (24 total)
 /research, /session-close, /weekly-review, /decision, /remember, /market-check, /project-update, /voice-gen, /prompt-gen, /gemini, /kimi, /email-check, /kraken, /health-check, /docker, /backup
+/stock-screen, /dcf-value, /risk-analyze, /earnings-breakdown, /portfolio-strategy, /technical-analysis, /dividend-strategy, /competitive-analysis, /pattern-finder (finance suite — Session 8)
+/trend-check, /content-gen, /script-gen, /niche-finder (social media pipeline — 2026-03-16)
 
 ## Session Index
 | Date | Focus | File |
@@ -101,3 +103,15 @@ See @memory/decisions-log.md
 - [2026-03-12] startup.bat installed: price-alert.py + telegram-claude-bridge.py auto-start at Windows login
 - [2026-03-12] Cloud health: system-health.yml runs 9AM AST daily via GitHub Actions (checks CoinGecko/GitHub/Kraken)
 - [2026-03-12] fetch + git MCPs added (free, no API key)
+- [2026-03-15] All 14 upgrade screenshots processed — 9 finance skills, 3 tools (decision-review.py, task-manager.py, gmail-manager.py), memory system confirmed
+- [2026-03-15] Task Scheduler: YNAI5-DecisionReview (daily 9:15AM), YNAI5-GmailTriage (hourly), YNAI5-TaskAgent (hourly), YNAI5-UpgradeWatcher (every 30min)
+- [2026-03-15] Screen lock fix: AC sleep=NEVER, DC sleep=30min (was 3min). Sessions survive screen lock.
+- [2026-03-16] Social media pipeline skills built: /trend-check, /content-gen, /script-gen, /niche-finder, /video-plan
+- [2026-03-16] New output folders: social-media-automation/scripts/, trends/, niche-research/, video-plans/
+- [2026-03-16] content-gen upgraded: now includes B-Roll Pexels keywords section in every output
+- [2026-03-16] Playbook created: playbooks/tiktok-video-assembly.md — SOP for <15 min/video assembly
+- [2026-03-16] Free pipeline LIVE: ElevenLabs VO (10K chars/mo) + Pexels stock footage + CapCut
+- [2026-03-16] Video gen verdict: Kling AI wins (MCP server + 66 free credits/day + cheapest API). Buy March 27 at $6.99/mo.
+- [2026-03-16] Seedance 2.0 SUSPENDED globally March 15 — Disney C&D, copyright dispute. Avoid entirely.
+- [2026-03-16] ACTION: Go to pexels.com/api → free API key → paste in YNAI5-KEY-INPUT.txt → add PEXELS_API_KEY to .env.local
+- [2026-03-16] March 27 plan: Kling AI Standard ($6.99) + mcp-kling MCP → fully autonomous video pipeline

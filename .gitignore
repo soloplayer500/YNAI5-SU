@@ -18,3 +18,4 @@ projects/social-media-automation/audio/*.mp3
 
 # Keep folder structure in git
 !**/.gitkeep
+nul

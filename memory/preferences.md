@@ -16,6 +16,7 @@ _Auto-updated. Every "remember I always prefer X" saves here with date._
 - [2026-03-09] System design before execution — plan the architecture first
 - [2026-03-09] Iterative: idea → design → build → test → improve
 - [2026-03-10] API key collection: open a Notepad .txt file on Desktop for user to paste key — never ask them to type sensitive keys in chat
+- [2026-03-16] API/MCP workflow: whenever a new API key or MCP is needed, AUTOMATICALLY open YNAI5-KEY-INPUT.txt via Notepad — do not wait for user to open it. Keeps workflow moving faster.
 
 ## Output Format
 - [2026-03-09] Structured responses: headings, bullet points, clear sections
@@ -25,6 +26,9 @@ _Auto-updated. Every "remember I always prefer X" saves here with date._
 ## Decision Making
 - [2026-03-09] Infrastructure mindset — build reusable systems over one-off solutions
 - [2026-03-09] Budget-conscious — always consider cost efficiency for API usage
+
+## Goals
+- [2026-03-17] End-of-March target: full video automation pipeline — trend check → script → voice gen → Pexels fetch → video assembly → ready to drop daily. No manual steps except final upload. Claude's job = videos pre-built and queued.
 
 ---
 _Add new entries below using format: [YYYY-MM-DD] Preference description_

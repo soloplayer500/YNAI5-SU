@@ -1,0 +1,50 @@
+name: YNAI5 Market Reports
+
+on:
+  schedule:
+    # All times UTC — AST is UTC-4
+    - cron: '0 12 * * *'   # 8:00 AM AST  (12:00 UTC)
+    - cron: '0 22 * * *'   # 6:00 PM AST  (22:00 UTC)
+    - cron: '0 1 * * *'    # 9:00 PM AST  (01:00 UTC next day)
+  workflow_dispatch:        # Manual trigger from GitHub Actions tab
+
+jobs:
+  market-report:
+    name: Run Market Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Write .env.local from GitHub Secrets
+        run: |
+          cat > .env.local <<EOF
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          COINGECKO_API_KEY=${{ secrets.COINGECKO_API_KEY }}
+          KRAKEN_API_KEY=${{ secrets.KRAKEN_API_KEY }}
+          KRAKEN_API_SECRET=${{ secrets.KRAKEN_API_SECRET }}
+          BRAVE_SEARCH_API_KEY=${{ secrets.BRAVE_SEARCH_API_KEY }}
+          GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+          EOF
+
+      - name: Run market report
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+          KRAKEN_API_KEY: ${{ secrets.KRAKEN_API_KEY }}
+          KRAKEN_API_SECRET: ${{ secrets.KRAKEN_API_SECRET }}
+          BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python projects/crypto-monitoring/market-report.py
