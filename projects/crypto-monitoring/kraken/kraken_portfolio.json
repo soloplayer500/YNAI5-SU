@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-03-20T11:50:25Z",
+  "generated_at": "2026-03-20T12:35:50Z",
   "exchange": "kraken",
   "cache_hit": false,
   "portfolio": {
-    "total_usd": 16.27,
+    "total_usd": 16.22,
     "stablecoins_usd": 0.01,
     "balances": [
       {
@@ -11,9 +11,9 @@
         "symbol": "PENGU",
         "coingecko_id": "pudgy-penguins",
         "qty": 1873.2,
-        "price_usd": 0.00724923,
-        "usd_value": 13.58,
-        "change_24h_pct": 0.96,
+        "price_usd": 0.00722346,
+        "usd_value": 13.53,
+        "change_24h_pct": 1.91,
         "avg_buy": null,
         "pnl_pct": null,
         "is_stablecoin": false
@@ -23,9 +23,9 @@
         "symbol": "BT",
         "coingecko_id": "bitcoin",
         "qty": 2.364e-05,
-        "price_usd": 70356,
+        "price_usd": 70362,
         "usd_value": 1.66,
-        "change_24h_pct": 0.53,
+        "change_24h_pct": 1.07,
         "avg_buy": 90111.0,
         "pnl_pct": -21.9,
         "is_stablecoin": false
@@ -35,11 +35,11 @@
         "symbol": "OPN",
         "coingecko_id": "opinion",
         "qty": 3.498,
-        "price_usd": 0.287729,
+        "price_usd": 0.288147,
         "usd_value": 1.01,
-        "change_24h_pct": 6.45,
+        "change_24h_pct": 7.29,
         "avg_buy": 0.3326,
-        "pnl_pct": -13.5,
+        "pnl_pct": -13.4,
         "is_stablecoin": false
       },
       {
@@ -47,7 +47,7 @@
         "symbol": "USDT",
         "coingecko_id": "tether",
         "qty": 0.01001724,
-        "price_usd": 0.999884,
+        "price_usd": 0.999863,
         "usd_value": 0.01,
         "change_24h_pct": -0.01,
         "avg_buy": null,
@@ -59,9 +59,9 @@
         "symbol": "ETH",
         "coingecko_id": "ethereum",
         "qty": 4.0016e-06,
-        "price_usd": 2139.04,
+        "price_usd": 2138.46,
         "usd_value": 0.01,
-        "change_24h_pct": -1.37,
+        "change_24h_pct": -0.79,
         "avg_buy": 3151.0,
         "pnl_pct": -32.1,
         "is_stablecoin": false
@@ -71,11 +71,11 @@
         "symbol": "BABY",
         "coingecko_id": "babylon",
         "qty": 0.00348,
-        "price_usd": 0.01314828,
+        "price_usd": 0.01308275,
         "usd_value": 0.0,
-        "change_24h_pct": 2.02,
+        "change_24h_pct": 2.4,
         "avg_buy": 0.028,
-        "pnl_pct": -53.0,
+        "pnl_pct": -53.3,
         "is_stablecoin": false
       },
       {
@@ -83,11 +83,11 @@
         "symbol": "EIGEN",
         "coingecko_id": "eigenlayer",
         "qty": 0.003366,
-        "price_usd": 0.198536,
+        "price_usd": 0.197676,
         "usd_value": 0.0,
-        "change_24h_pct": 1.66,
+        "change_24h_pct": 1.76,
         "avg_buy": 0.3,
-        "pnl_pct": -33.8,
+        "pnl_pct": -34.1,
         "is_stablecoin": false
       },
       {
@@ -107,11 +107,11 @@
         "symbol": "SOL",
         "coingecko_id": "solana",
         "qty": 6.2624e-06,
-        "price_usd": 88.99,
+        "price_usd": 89.17,
         "usd_value": 0.0,
-        "change_24h_pct": -0.67,
+        "change_24h_pct": 0.22,
         "avg_buy": 151.0,
-        "pnl_pct": -41.1,
+        "pnl_pct": -40.9,
         "is_stablecoin": false
       },
       {
@@ -167,74 +167,74 @@
     "recent_trades": [],
     "prices": {
       "BABYUSD": {
-        "bid": 0.01313,
-        "ask": 0.01315,
-        "last": 0.01315,
+        "bid": 0.01306,
+        "ask": 0.0131,
+        "last": 0.01305,
         "high_24h": 0.01338,
         "low_24h": 0.01264,
-        "volume_24h": 2972778.70911,
-        "vwap_24h": 0.012863696,
-        "trades_24h": 531
+        "volume_24h": 2994582.1087,
+        "vwap_24h": 0.01286538,
+        "trades_24h": 536
       },
       "EIGENUSD": {
-        "bid": 0.1984,
-        "ask": 0.1987,
-        "last": 0.1983,
+        "bid": 0.1973,
+        "ask": 0.1975,
+        "last": 0.1984,
         "high_24h": 0.2027,
         "low_24h": 0.1891,
-        "volume_24h": 266482.25885,
-        "vwap_24h": 0.1949739,
-        "trades_24h": 444
+        "volume_24h": 262145.68451,
+        "vwap_24h": 0.1949748,
+        "trades_24h": 430
       },
       "XETHZUSD": {
-        "bid": 2139.23,
-        "ask": 2139.24,
-        "last": 2139.42,
+        "bid": 2138.54,
+        "ask": 2138.55,
+        "last": 2138.03,
         "high_24h": 2176.58,
         "low_24h": 2100.0,
-        "volume_24h": 58133.95228384,
-        "vwap_24h": 2138.1182,
-        "trades_24h": 36473
+        "volume_24h": 58335.14390743,
+        "vwap_24h": 2138.01222,
+        "trades_24h": 36383
       },
       "OPNUSD": {
-        "bid": 0.2871,
-        "ask": 0.2885,
-        "last": 0.2863,
+        "bid": 0.2872,
+        "ask": 0.289,
+        "last": 0.2897,
         "high_24h": 0.3051,
-        "low_24h": 0.268,
-        "volume_24h": 363757.57518,
-        "vwap_24h": 0.29223177,
-        "trades_24h": 588
+        "low_24h": 0.2691,
+        "volume_24h": 361712.54815,
+        "vwap_24h": 0.29246521,
+        "trades_24h": 584
       },
       "PENGUUSD": {
-        "bid": 0.007231,
-        "ask": 0.007232,
-        "last": 0.00723,
+        "bid": 0.007222,
+        "ask": 0.007225,
+        "last": 0.007222,
         "high_24h": 0.007385,
         "low_24h": 0.006929,
-        "volume_24h": 170797052.52196,
-        "vwap_24h": 0.007166996,
-        "trades_24h": 4331
+        "volume_24h": 160714349.90781,
+        "vwap_24h": 0.007169938,
+        "trades_24h": 4239
       },
       "SOLUSD": {
-        "bid": 88.97,
-        "ask": 88.99,
-        "last": 88.98,
+        "bid": 89.13,
+        "ask": 89.15,
+        "last": 89.12,
         "high_24h": 90.45,
         "low_24h": 86.98,
-        "volume_24h": 247830.20904891,
-        "vwap_24h": 88.65658,
-        "trades_24h": 18147
+        "volume_24h": 248507.19274177,
+        "vwap_24h": 88.66865,
+        "trades_24h": 18195
       },
       "XXBTZUSD": {
-        "bid": 70353.0,
-        "ask": 70353.1,
-        "last": 70353.1,
+        "bid": 70350.9,
+        "ask": 70351.0,
+        "last": 70351.0,
         "high_24h": 71340.6,
         "low_24h": 68782.0,
-        "volume_24h": 2588.38326876,
-        "vwap_24h": 69976.41015,
-        "trades_24h": 61582
+        "volume_24h": 2501.13648913,
+        "vwap_24h": 69990.78486,
+        "trades_24h": 60415
       }
     }
   }
