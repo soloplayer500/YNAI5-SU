@@ -459,35 +459,62 @@ def build_report(
     news: list,
     analysis: str,
 ) -> str:
+    """Professional Block Syndicate briefing card — clean, readable, channel-quality."""
+
+    SEP_BOLD  = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    SEP_LIGHT = "─────────────────────────────"
+
     lines = []
 
-    # ── HEADER
+    # ── HEADER ────────────────────────────────────────────────────────────────
     lines += [
-        SEP,
-        f"<b>📊 YNAI5  ·  {session_label}  ·  {now_str} AST</b>",
-        SEP,
+        SEP_BOLD,
+        f"📊 <b>BLOCK SYNDICATE</b>  ·  {session_label}",
+        f"📅 {now_str} AST",
+        SEP_BOLD,
         "",
     ]
 
-    # ── PORTFOLIO TOTAL
+    # ── PORTFOLIO TOTAL ───────────────────────────────────────────────────────
     kraken_total  = sum(r["usd_value"] for r in kraken_rows)
     revolut_known = sum(r["usd_value"] for r in revolut_rows)
     grand_total   = kraken_total + revolut_known
+
     lines += [
-        f"💰 <b>PORTFOLIO  ~${grand_total:,.0f} USD</b>",
-        f"   Kraken ${kraken_total:,.0f}  ·  Revolut ${revolut_known:,.0f}+ (BTC/SOL in app)",
+        f"💰 <b>PORTFOLIO</b>  ·  <b>${grand_total:,.0f} total</b>",
+        f"   Kraken ${kraken_total:,.0f}  ·  Revolut ${revolut_known:,.0f}+",
         "",
     ]
 
-    # ── MARKET PULSE
-    greens = sum(
-        1 for cid in WATCHLIST
-        if prices.get(cid, {}).get("usd_24h_change", 0) >= 0
-    )
-    reds = len(WATCHLIST) - greens
-    lines.append(f"{SEP}")
-    lines.append(f"📊 <b>MARKET PULSE</b>  [{greens}🟢 · {reds}🔴 today]")
-    lines.append("")
+    # ── MARKET REGIME ─────────────────────────────────────────────────────────
+    # Use BTC's 24h change and overall green/red ratio to determine regime
+    btc_data   = prices.get("bitcoin", {})
+    btc_change = btc_data.get("usd_24h_change", 0.0)
+    greens     = sum(1 for cid in WATCHLIST if prices.get(cid, {}).get("usd_24h_change", 0) >= 0)
+    reds       = len(WATCHLIST) - greens
+    green_pct  = greens / max(len(WATCHLIST), 1) * 100
+
+    if green_pct >= 65:
+        regime_label = "🟢 <b>RISK-ON</b>  ·  Bulls in control"
+    elif green_pct >= 45:
+        regime_label = "🟡 <b>NEUTRAL</b>  ·  Mixed signals — wait for direction"
+    else:
+        regime_label = "🔴 <b>RISK-OFF</b>  ·  Bears leading — preserve capital"
+
+    lines += [
+        SEP_LIGHT,
+        f"🌡 <b>MARKET REGIME</b>",
+        f"   {regime_label}",
+        f"   Market: {greens}🟢 {reds}🔴  ·  BTC {'+' if btc_change >= 0 else ''}{btc_change:.1f}% 24h",
+        "",
+    ]
+
+    # ── MARKET PRICES ─────────────────────────────────────────────────────────
+    lines += [
+        SEP_LIGHT,
+        "💹 <b>MARKET PRICES</b>",
+        "",
+    ]
 
     alerts_active = []
     for coin_id, cfg in WATCHLIST.items():
@@ -497,87 +524,110 @@ def build_report(
         change = data.get("usd_24h_change", 0.0)
 
         if price is None:
-            lines.append(f"  ⚠️ <b>{sym}</b>: no data")
+            lines.append(f"   ⚠️ <b>{sym}</b>: no data")
             continue
 
         sign  = "+" if change >= 0 else ""
         trend = "🟢" if change >= 0 else "🔴"
-        big   = " ⚡" if abs(change) >= 8 else ""
+        arrow = "▲" if change >= 0 else "▼"
+        bang  = "  ⚡" if abs(change) >= 8 else ""
         pnl   = pnl_tag(price, cfg.get("avg_buy"))
-        rsi   = rsi_tag(signals.get(coin_id))
+
+        # RSI tag
+        rsi_val = signals.get(coin_id)
+        if rsi_val is not None:
+            if rsi_val >= 70:
+                rsi_s = f"  · RSI {rsi_val:.0f} ⚠️ OB"
+            elif rsi_val <= 30:
+                rsi_s = f"  · RSI {rsi_val:.0f} ⚠️ OS"
+            else:
+                rsi_s = f"  · RSI {rsi_val:.0f}"
+        else:
+            rsi_s = ""
 
         lines.append(
-            f"  {trend} <b>{sym}</b>  {fmt_price(price)}  {sign}{change:.1f}%{big}{pnl}{rsi}"
+            f"   {trend} <b>{sym:<6}</b>  {fmt_price(price):<12}  {arrow}{sign}{change:.1f}%{bang}{pnl}{rsi_s}"
         )
 
         # Collect threshold alerts
         for threshold, direction in cfg["alerts"]:
             if direction == "DOWN" and price <= threshold:
-                alerts_active.append(
-                    f"⬇️ <b>{sym}</b> {fmt_price(price)} — hit ${threshold} support"
-                )
+                alerts_active.append(f"⬇️ <b>{sym}</b> {fmt_price(price)} — hit ${threshold} support")
             elif direction == "UP" and price >= threshold:
-                alerts_active.append(
-                    f"⬆️ <b>{sym}</b> {fmt_price(price)} — hit ${threshold} target"
-                )
+                alerts_active.append(f"⬆️ <b>{sym}</b> {fmt_price(price)} — hit ${threshold} target")
 
     lines.append("")
 
-    # ── HOLDINGS
-    lines.append(SEP)
-    lines.append("🏦 <b>HOLDINGS</b>")
-    lines.append("")
-
+    # ── MY HOLDINGS ───────────────────────────────────────────────────────────
     if kraken_rows:
-        lines.append(f"   <b>Kraken</b>  ~${kraken_total:,.0f}")
+        lines += [
+            SEP_LIGHT,
+            "💼 <b>MY HOLDINGS</b>",
+            "",
+        ]
         for r in kraken_rows:
-            p = r.get("pnl_pct")
-            p_str = f"  [{'+' if p and p >= 0 else ''}{p:.0f}% P&L]" if p is not None else ""
-            lines.append(
-                f"   {r['symbol']}  {r['qty']:.4f}  →  ${r['usd_value']:,.2f}{p_str}"
+            p_val = r.get("pnl_pct")
+            ch24  = next(
+                (prices.get(cid, {}).get("usd_24h_change", 0)
+                 for cid, cfg in WATCHLIST.items() if cfg["symbol"] == r["symbol"]),
+                None,
             )
+
+            pnl_dot = "🟢" if (p_val or 0) >= 0 else "🔴"
+            pnl_s   = f"{pnl_dot} {'+' if (p_val or 0) >= 0 else ''}{p_val:.0f}% vs entry" if p_val is not None else "⚪ no entry"
+
+            ch_s = ""
+            if ch24 is not None:
+                arrow = "▲" if ch24 >= 0 else "▼"
+                bang  = "  ⚡" if abs(ch24) >= 8 else ""
+                ch_s  = f"  ·  {arrow}{abs(ch24):.1f}% today{bang}"
+
+            lines.append(f"   <b>{r['symbol']:<6}</b>  ${r['usd_value']:>7,.0f}  {pnl_s}{ch_s}")
+
+        if revolut_rows:
+            lines.append("")
+            for r in revolut_rows:
+                lines.append(f"   <b>{r['symbol']:<6}</b>  ${r['usd_value']:>7,.0f}  (Revolut)")
+            lines.append("   BTC + SOL: check Revolut app 📱")
+
         lines.append("")
 
-    if revolut_rows:
-        lines.append(f"   <b>Revolut</b>  ~${revolut_known:,.0f}")
-        for r in revolut_rows:
-            lines.append(
-                f"   {r['symbol']}  {r['qty']:.5f}  →  ${r['usd_value']:,.2f}"
-            )
-        lines.append("   BTC + SOL: check app 📱")
-        lines.append("")
-
-    # ── ACTIVE ALERTS
+    # ── ACTIVE ALERTS ─────────────────────────────────────────────────────────
     if alerts_active:
-        lines.append(SEP)
-        lines.append("🚨 <b>ALERTS TRIGGERED</b>")
-        lines.append("")
+        lines += [SEP_LIGHT, "🚨 <b>ALERTS TRIGGERED</b>", ""]
         for a in alerts_active:
             lines.append(f"   {a}")
         lines.append("")
 
-    # ── NEWS
+    # ── NEWS ──────────────────────────────────────────────────────────────────
     if news:
-        lines.append(SEP)
-        lines.append("📰 <b>NEWS</b>")
-        lines.append("")
-        for item in news:
-            title = item["title"][:82]
-            age   = f"  ({item['age']})" if item.get("age") else ""
+        lines += [SEP_LIGHT, "📰 <b>HEADLINES</b>", ""]
+        for item in news[:4]:
+            title = item["title"][:78]
+            age   = f" ({item['age']})" if item.get("age") else ""
             lines.append(f"   • {title}{age}")
         lines.append("")
 
-    # ── AI TAKE
+    # ── AI ANALYST TAKE ───────────────────────────────────────────────────────
     if analysis:
-        lines.append(SEP)
-        lines.append("🤖 <b>YNAI5 TAKE</b>")
-        lines.append("")
-        lines.append(analysis)
+        lines += [SEP_LIGHT, "🤖 <b>YNAI5 ANALYST TAKE</b>", ""]
+        # Format as bullet points if not already
+        for sentence in analysis.replace("• ", "\n• ").split("\n"):
+            s = sentence.strip()
+            if not s:
+                continue
+            if not s.startswith("•") and not s.startswith("▸"):
+                s = f"▸ {s}"
+            lines.append(f"   {s}")
         lines.append("")
 
-    # ── FOOTER
-    lines.append(SEP)
-    lines.append(f"<i>@SoloClaude5_bot  ·  {now_str} AST</i>")
+    # ── FOOTER ────────────────────────────────────────────────────────────────
+    lines += [
+        SEP_BOLD,
+        "📌 Free signals  →  @BlockSyndicateFree",
+        "💎 VIP setups    →  @BlockSyndicateVip",
+        SEP_BOLD,
+    ]
 
     return "\n".join(lines)
 

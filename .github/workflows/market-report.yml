@@ -2,10 +2,9 @@ name: YNAI5 Market Reports
 
 on:
   schedule:
-    # All times UTC — AST is UTC-4
-    - cron: '0 12 * * *'   # 8:00 AM AST  (12:00 UTC)
-    - cron: '0 22 * * *'   # 6:00 PM AST  (22:00 UTC)
-    - cron: '0 1 * * *'    # 9:00 PM AST  (01:00 UTC next day)
+    # AST = UTC-4 · Morning briefing + Afternoon check only
+    - cron: '0 13 * * *'   # 9:00 AM AST  (13:00 UTC)
+    - cron: '0 19 * * *'   # 3:00 PM AST  (19:00 UTC)
   workflow_dispatch:        # Manual trigger from GitHub Actions tab
 
 jobs:
