@@ -1,7 +1,7 @@
 # Memory Index
 _Claude auto-updates this file. Keep under 200 lines. Overflow goes to topic files._
 
-Last Updated: 2026-03-18 (Session 12)
+Last Updated: 2026-03-22 (Session 13)
 
 ---
 
@@ -31,6 +31,18 @@ Last Updated: 2026-03-18 (Session 12)
 - [2026-03-10] monitor-loop.py created — 15min heartbeat, threshold+big-move alerts, no Docker needed
 - [2026-03-10] OpenRouter API key added — OPENROUTER_API_KEY in .env.local. Kimi K2.5 tested LIVE ✅ ($0.0002/call)
 - [2026-03-10] API key input method: open Notepad .txt on Desktop, user pastes key there — never in chat
+- [2026-03-22] /learn skill created — 6 modes: plan, cheatsheet, quiz, ladder, resources, feynman
+- [2026-03-22] /macro-impact skill created — McKinsey macro assessment for portfolio impact analysis
+- [2026-03-22] Higgsfield vs Kling verdict: KLING AI WINS — $6.99/mo Standard, 4.4x more videos, mcp-kling Claude Code integration, 1-3 min gen speed
+- [2026-03-22] Video gen upgrade: buy Kling AI Standard + add mcp-kling MCP on payday 2026-03-27
+- [2026-03-22] BTC symbol bug confirmed FIXED already — XXBT → BTC via KRAKEN_DISPLAY_SYMBOL dict
+- [2026-03-22] Anthropic API credits LOW — top up $10 on payday (Telegram bridge + AI analyst breaking)
+- [2026-03-22] Passive income strategy: Telegram screener channel → Beehiiv newsletter → YouTube Shorts
+- [2026-03-22] Distribution: GLOBAL (Reddit + Twitter/X + Discord) — NOT Aruba-local audience
+- [2026-03-22] Revenue target: 25–80 paid subscribers @ $9.99 = $250–800 MRR by month 3
+- [2026-03-22] Upgrade screenshots batch: slides 1-6 = learning prompts, slides 7-15 = existing finance skills, slide 16 = new McKinsey macro skill
+- [2026-03-22] Payday 2026-03-27 12:01 PM AST: Kling $6.99 → Anthropic credits $10 → crypto DCA (in that order)
+- [2026-03-22] n8n or Postiz (both free) recommended for cross-platform signal distribution automation
 
 ## Preferences Summary
 See @memory/preferences.md for full list.
@@ -52,11 +64,12 @@ See @memory/decisions-log.md
 | patterns.md | Recurring behaviors and workflow insights |
 | decisions-log.md | Chronological decision log |
 
-## Skills Available (26 total)
+## Skills Available (28 total)
 /research, /session-close, /weekly-review, /decision, /remember, /market-check, /project-update, /voice-gen, /prompt-gen, /gemini, /kimi, /email-check, /kraken, /health-check, /docker, /backup
 /stock-screen, /dcf-value, /risk-analyze, /earnings-breakdown, /portfolio-strategy, /technical-analysis, /dividend-strategy, /competitive-analysis, /pattern-finder (finance suite — Session 8)
 /trend-check, /content-gen, /script-gen, /niche-finder, /video-plan (social media — 2026-03-16)
 /crypto-portfolio, /crypto-screen (crypto intelligence — Session 11-12)
+/learn, /macro-impact (Session 13 — 2026-03-22)
 
 ## Session Index
 | Date | Focus | File |
@@ -67,6 +80,7 @@ See @memory/decisions-log.md
 | 2026-03-10 | Claude API upgrades — 15 docs reviewed, free wins applied | sessions/2026-03-10-session-4.md |
 | 2026-03-10 | Portfolio snapshot, BTC market mechanics, NotebookLM crypto study doc | sessions/2026-03-10-session-5.md |
 | 2026-03-18 | GitHub push + cloud sync + Telegram redesign + crypto focus shift | sessions/2026-03-18-session-12.md |
+| 2026-03-22 | 16 upgrade screenshots processed, /learn + /macro-impact skills, Kling verdict, passive income strategy | sessions/2026-03-22-session-13.md |
 
 ## Docs Added
 | Date | Topic | File |

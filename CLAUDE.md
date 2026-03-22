@@ -47,6 +47,7 @@ YNAI5-SU/
     ├── multi-ai-prompt-optimization/      ← Prompt engineering frameworks
     ├── social-media-automation/           ← YT/TikTok/IG growth
     ├── personal-ai-infrastructure/        ← AI ecosystem design
+    ├── passive-income/                    ← AI-automated revenue streams (Telegram screener, newsletter, Shorts)
     └── system-health/                     ← Health monitoring, crash recovery, startup
 ```
 
@@ -159,6 +160,12 @@ _These govern how I approach ALL tasks — from simple questions to complex buil
 - `/dividend-strategy [amount] [income goal] [account type]` — Harvard dividend portfolio with DRIP projections
 - `/competitive-analysis [industry] [company optional]` — Bain competitive moat analysis + best pick
 - `/pattern-finder [ticker] [timeframe]` — Renaissance Technologies statistical pattern + edge summary
+
+### Learning Skills
+- `/learn [mode] [topic]` — 6-mode learning system: `plan` (20-hr accelerated), `cheatsheet` (1-page summary), `quiz` (10 progressive Qs), `ladder` (5 difficulty levels), `resources` (top 5 picks), `feynman` (teach-back loop) → notes/
+
+### Macro Intelligence
+- `/macro-impact [holdings + % allocations]` — McKinsey-Level macro impact assessment: Fed trajectory, inflation, DXY, sector headwinds, portfolio action table → crypto-monitoring/research/
 
 ### Productivity Skills
 - `/email-check [query]` — search Gmail via MCP (brand deals, notifications, crypto alerts)

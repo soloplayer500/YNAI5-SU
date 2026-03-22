@@ -1,7 +1,7 @@
 # Documentation Index
 _Update this file whenever a new doc is added._
 
-Last Updated: 2026-03-17 (Session 10)
+Last Updated: 2026-03-22 (Session 13)
 
 ---
 
@@ -32,6 +32,7 @@ _Auto-added by /research skill as YYYY-MM-DD-topic.md_
 | 2026-03-11 | CapCut API verdict (no API) + FFmpeg/MoviePy alternatives + Telegram /gpt command code plan | 2026-03-11-capcut-api-telegram-bridge-plan.md |
 | 2026-03-16 | Video gen tools comparison — Kling AI vs Runway vs Sora vs Seedance (winner: Kling + MCP) | 2026-03-16-video-gen-tools-comparison.md |
 | 2026-03-17 | Short-form video automation best practices — timing, hooks, TikTok/YT APIs, tools, Distrokid clarification | 2026-03-17-short-form-video-automation-best-practices.md |
+| 2026-03-22 | Higgsfield AI vs Kling AI — full comparison, verdict: Kling Standard $6.99/mo wins (4.4x videos, MCP server) | 2026-03-22-higgsfield-vs-kling.md |
 
 ## Reference Files
 _Stable reference material added as needed_
