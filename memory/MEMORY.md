@@ -37,6 +37,8 @@ Last Updated: 2026-03-22 (Session 13)
 - [2026-03-22] Video gen upgrade: buy Kling AI Standard + add mcp-kling MCP on payday 2026-03-27
 - [2026-03-22] BTC symbol bug confirmed FIXED already — XXBT → BTC via KRAKEN_DISPLAY_SYMBOL dict
 - [2026-03-22] Anthropic API credits LOW — top up $10 on payday (Telegram bridge + AI analyst breaking)
+- [2026-03-22] /stock-analyze skill created — @BetterWaveFinance 9-dimension framework (Business Model, Value Creation, Capital Intensity, Balance Sheet, Management, SBC, Guidance, Optionality, Risks → BUY/HOLD/AVOID)
+- [2026-03-22] Block Syndicate Telegram screener LIVE — VIP (-1003689725571) + Free (-1003860200579) channels receiving signals daily at 8AM AST via GitHub Actions
 - [2026-03-22] Passive income strategy: Telegram screener channel → Beehiiv newsletter → YouTube Shorts
 - [2026-03-22] Distribution: GLOBAL (Reddit + Twitter/X + Discord) — NOT Aruba-local audience
 - [2026-03-22] Revenue target: 25–80 paid subscribers @ $9.99 = $250–800 MRR by month 3
@@ -64,12 +66,12 @@ See @memory/decisions-log.md
 | patterns.md | Recurring behaviors and workflow insights |
 | decisions-log.md | Chronological decision log |
 
-## Skills Available (28 total)
+## Skills Available (29 total)
 /research, /session-close, /weekly-review, /decision, /remember, /market-check, /project-update, /voice-gen, /prompt-gen, /gemini, /kimi, /email-check, /kraken, /health-check, /docker, /backup
-/stock-screen, /dcf-value, /risk-analyze, /earnings-breakdown, /portfolio-strategy, /technical-analysis, /dividend-strategy, /competitive-analysis, /pattern-finder (finance suite — Session 8)
+/stock-screen, /dcf-value, /risk-analyze, /earnings-breakdown, /portfolio-strategy, /technical-analysis, /dividend-strategy, /competitive-analysis, /pattern-finder, /stock-analyze (finance suite)
 /trend-check, /content-gen, /script-gen, /niche-finder, /video-plan (social media — 2026-03-16)
 /crypto-portfolio, /crypto-screen (crypto intelligence — Session 11-12)
-/learn, /macro-impact (Session 13 — 2026-03-22)
+/learn, /macro-impact, /stock-analyze (Session 13 — 2026-03-22)
 
 ## Session Index
 | Date | Focus | File |

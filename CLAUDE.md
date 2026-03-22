@@ -160,6 +160,7 @@ _These govern how I approach ALL tasks — from simple questions to complex buil
 - `/dividend-strategy [amount] [income goal] [account type]` — Harvard dividend portfolio with DRIP projections
 - `/competitive-analysis [industry] [company optional]` — Bain competitive moat analysis + best pick
 - `/pattern-finder [ticker] [timeframe]` — Renaissance Technologies statistical pattern + edge summary
+- `/stock-analyze [ticker] [company]` — 9-dimension deep company analysis (Business Model, Value Creation, Capital Intensity, Balance Sheet, Management, SBC, Guidance, Optionality, Risks) → BUY/HOLD/AVOID verdict
 
 ### Learning Skills
 - `/learn [mode] [topic]` — 6-mode learning system: `plan` (20-hr accelerated), `cheatsheet` (1-page summary), `quiz` (10 progressive Qs), `ladder` (5 difficulty levels), `resources` (top 5 picks), `feynman` (teach-back loop) → notes/
