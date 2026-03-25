@@ -146,3 +146,21 @@ See @memory/decisions-log.md
 - [2026-03-18] NEXT WEEK: user gets paid — plan position sizes for BTC DCA + automation tools (Kling $6.99)
 - [2026-03-18] BTC symbol bug: shows "BT" instead of "BTC" in portfolio JSON — XXBT asset mapping issue
 - [2026-03-18] Claude.ai Projects system prompt ready with real GitHub URLs — user setting up on mobile
+- [2026-03-24] Personal Telegram: `📋 PORTFOLIO BRIEF` executive format — no branding, alert-only on >5% moves
+- [2026-03-24] Block Syndicate market-report: professional card format — Regime/RSI/Holdings/News/AI Take
+- [2026-03-24] market-report.yml trimmed to 9AM + 3PM AST only (was 8AM/6PM/9PM)
+- [2026-03-24] FlowStack workspace created — C:\Users\shema\OneDrive\Desktop\FlowStack\ (27 files, git init)
+- [2026-03-24] FlowStack = personal finance only (portfolio, savings, investing knowledge, 5 skills)
+- [2026-03-24] Payslip reminder scheduled: 2026-03-29 10:00 AM AST (auto-fires Telegram)
+
+## Session Index
+| Date | Focus | File |
+|------|-------|------|
+| 2026-03-09 | Workspace foundation setup | sessions/2026-03-09-session.md |
+| 2026-03-09 | Skills, APIs, OPN research, Gemini sub-agent | sessions/2026-03-09-session-2.md |
+| 2026-03-10 | Kraken API skill + price alert system (8 tickers) | sessions/2026-03-10-session-3.md |
+| 2026-03-10 | Claude API upgrades — 15 docs reviewed, free wins applied | sessions/2026-03-10-session-4.md |
+| 2026-03-10 | Portfolio snapshot, BTC market mechanics, NotebookLM crypto study doc | sessions/2026-03-10-session-5.md |
+| 2026-03-18 | GitHub push + cloud sync + Telegram redesign + crypto focus shift | sessions/2026-03-18-session-12.md |
+| 2026-03-22 | 16 upgrade screenshots, /learn + /macro-impact, Kling verdict, passive income | sessions/2026-03-22-session-13.md |
+| 2026-03-24 | Telegram executive briefing, FlowStack workspace, payslip reminder | sessions/2026-03-24-session-14.md |
