@@ -1,9 +1,7 @@
 name: Kraken Portfolio Sync
 
 on:
-  schedule:
-    # Every 30 minutes — ~1-2 min runtime = ~60-90 min/month (well within 2000 free)
-    - cron: '*/30 * * * *'
+  # schedule: PAUSED 2026-03-29 — re-enable once Oracle VM is running monitor-loop 24/7
   workflow_dispatch:  # Manual trigger from Actions tab for testing
 
 jobs:

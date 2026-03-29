@@ -16,9 +16,9 @@ REM Quick health snapshot
 echo [%DATE% %TIME%] Health snapshot... >> "%LOG%"
 python "%WORKSPACE%\projects\system-health\health-check.py" --quick 2>> "%LOG%"
 
-REM Start Crypto Price Alert (minimized)
-echo [%DATE% %TIME%] Starting price-alert... >> "%LOG%"
-start /MIN "YNAI5-PriceAlert" python "%WORKSPACE%\projects\crypto-monitoring\price-alert.py"
+REM Start Crypto Price Alert — PAUSED 2026-03-29 (moving to Oracle VM)
+REM echo [%DATE% %TIME%] Starting price-alert... >> "%LOG%"
+REM start /MIN "YNAI5-PriceAlert" python "%WORKSPACE%\projects\crypto-monitoring\price-alert.py"
 
 REM Start Telegram Bridge (minimized)
 echo [%DATE% %TIME%] Starting telegram-bridge... >> "%LOG%"
