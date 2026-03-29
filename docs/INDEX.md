@@ -1,7 +1,7 @@
 # Documentation Index
 _Update this file whenever a new doc is added._
 
-Last Updated: 2026-03-22 (Session 13)
+Last Updated: 2026-03-29 (Session 16 — Kling guide, cloud research)
 
 ---
 
@@ -33,6 +33,8 @@ _Auto-added by /research skill as YYYY-MM-DD-topic.md_
 | 2026-03-16 | Video gen tools comparison — Kling AI vs Runway vs Sora vs Seedance (winner: Kling + MCP) | 2026-03-16-video-gen-tools-comparison.md |
 | 2026-03-17 | Short-form video automation best practices — timing, hooks, TikTok/YT APIs, tools, Distrokid clarification | 2026-03-17-short-form-video-automation-best-practices.md |
 | 2026-03-22 | Higgsfield AI vs Kling AI — full comparison, verdict: Kling Standard $6.99/mo wins (4.4x videos, MCP server) | 2026-03-22-higgsfield-vs-kling.md |
+| 2026-03-29 | Kling AI prompting guide — schema, best practices, model limits, web vs API credits | 2026-03-29-kling-ai-prompting-guide.md |
+| 2026-03-29 | Cloud services research — always-on compute, MCP registry, automation platforms, storage CDN | 2026-03-29-cloud-services-research.md |
 
 ## Reference Files
 _Stable reference material added as needed_
@@ -41,6 +43,7 @@ _Stable reference material added as needed_
 |------|----------|
 | 2026-03-10-remote-mcp-servers.md | Remote MCP server setup guide — Brave Search, GitHub, already-connected servers |
 | 2026-03-11-github-actions-setup.md | GitHub Actions workflow setup — 3x/day market report, secrets config, Task Scheduler migration |
+| oracle-cloud-setup.md | Oracle Cloud Free Tier setup — ARM VM, systemd services, cron migration, always-free infrastructure |
 
 ---
 _Claude auto-updates this index when new docs are added._
