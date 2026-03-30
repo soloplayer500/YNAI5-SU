@@ -35,6 +35,9 @@ tools/inbox_manager.log
 tools/tasks.log
 projects/system-health/logs/
 
+# Git worktrees (isolated dev workspaces)
+.worktrees/
+
 # Keep folder structure in git
 !**/.gitkeep
 nul
