@@ -1,7 +1,7 @@
 # Projects Index
 _Update this file whenever a new project is created._
 
-Last Updated: 2026-03-22 (Session 13 — Passive Income + New Skills + Kling AI Verdict)
+Last Updated: 2026-03-29 (Session 17 — BRAINAI5 V3 Niche Research Agent)
 
 ---
 
@@ -18,6 +18,7 @@ Last Updated: 2026-03-22 (Session 13 — Passive Income + New Skills + Kling AI 
 | Personal AI Infrastructure | 🔄 Ongoing | Low | [personal-ai-infrastructure/](personal-ai-infrastructure/) |
 | Ralph Automation | 🔨 Building | Medium | [ralph-automation/](ralph-automation/) |
 | System Health | ✅ Active | High | [system-health/](system-health/) |
+| **Niche Research Agent** | 🔨 Building | **High** | [niche-research/](niche-research/) |
 
 ## Status Key
 - 🔨 Building — actively in development

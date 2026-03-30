@@ -1,0 +1,49 @@
+name: BRAINAI5 Deep Dive (Approve)
+
+on:
+  workflow_dispatch:
+    inputs:
+      niche_slug:
+        description: "Slug from Phase 1 (e.g. 'betrayal-karma-narratives')"
+        required: true
+        type: string
+
+jobs:
+  deepdive:
+    name: Phase 2 — Deep Dive + Sheets + Dashboard
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Google Sheets dependencies
+        run: pip install gspread google-auth
+
+      - name: Run Phase 2 Deep Dive
+        env:
+          NICHE_SLUG: ${{ inputs.niche_slug }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_SHEETS_ID: ${{ secrets.GOOGLE_SHEETS_ID }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: python projects/niche-research/niche_deepdive.py "${{ inputs.niche_slug }}"
+
+      - name: Commit dashboard + updated reports
+        run: |
+          git config user.name "BRAINAI5 Bot"
+          git config user.email "brainai5@ynai5.local"
+          git add projects/niche-research/output/ || true
+          git diff --staged --quiet || git commit -m "feat: niche dashboard — ${{ inputs.niche_slug }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

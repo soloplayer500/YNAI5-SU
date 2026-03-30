@@ -48,6 +48,7 @@ YNAI5-SU/
     ├── social-media-automation/           ← YT/TikTok/IG growth
     ├── personal-ai-infrastructure/        ← AI ecosystem design
     ├── passive-income/                    ← AI-automated revenue streams (Telegram screener, newsletter, Shorts)
+    ├── niche-research/                    ← BRAINAI5 V3 — cloud niche research agent (GitHub Actions + Sheets + Telegram gate)
     └── system-health/                     ← Health monitoring, crash recovery, startup
 ```
 

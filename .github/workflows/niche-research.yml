@@ -1,0 +1,52 @@
+name: BRAINAI5 Niche Research
+
+on:
+  workflow_dispatch:
+    inputs:
+      niche_query:
+        description: "Niche to research (e.g. 'betrayal karma narratives')"
+        required: true
+        type: string
+      gate_timeout:
+        description: "Seconds to wait for Telegram YES/NO response (default 600 = 10 min)"
+        required: false
+        default: "600"
+        type: string
+
+jobs:
+  research:
+    name: Phase 1 — Research & Telegram Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Phase 1 Research + Telegram Gate
+        env:
+          NICHE_QUERY: ${{ inputs.niche_query }}
+          GATE_TIMEOUT_SECONDS: ${{ inputs.gate_timeout }}
+          BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python projects/niche-research/niche_research.py
+
+      - name: Commit research report (on YES approval)
+        if: success()
+        run: |
+          git config user.name "BRAINAI5 Bot"
+          git config user.email "brainai5@ynai5.local"
+          git add projects/niche-research/output/reports/ || true
+          git diff --staged --quiet || git commit -m "feat: niche research — ${{ inputs.niche_query }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

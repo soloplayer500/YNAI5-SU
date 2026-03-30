@@ -1,65 +1,115 @@
 ---
 name: niche-finder
-description: Deep niche research for YouTube/TikTok/Instagram content strategy. Returns ranked table of sub-niches with RPM, competition, automation score, and first-mover potential. Use when asked to "find a niche", "niche research", "what niche should I pick", or "/niche-finder".
-argument-hint: [seed keyword or broad category, e.g. "AI tools" or "crypto education"]
+description: "BRAINAI5 V3 — Deep autonomous niche research for YouTube/TikTok/Instagram. Triggers cloud GitHub Actions pipeline: 5-layer Brave research → Claude synthesis → Telegram inline gate (YES/NO/PIVOT) → Google Sheets tracking → HTML dashboard. Use when asked to 'find a niche', 'niche research', 'what niche should I pick', or '/niche-finder'."
+argument-hint: "[seed keyword, e.g. 'betrayal karma narratives' or 'AI productivity tools']"
 ---
 
-Deep niche research for: $ARGUMENTS
+# BRAINAI5 V3 — Niche Research
+Query: $ARGUMENTS
 
-## Research Goal
-Find the 10 best content sub-niches within the seed topic. Rank them by revenue potential
-and automation feasibility — not just view counts. The goal is monetizable, automatable content.
+## Architecture
+This skill runs cloud-first via GitHub Actions:
+- **Phase 1** (`niche-research.yml`): Brave Search × 5 layers → Claude Haiku synthesis → Telegram inline keyboard gate
+- **Phase 2** (`niche-approve.yml`): Deep dive → Google Sheets (5 tabs) → HTML dashboard → Telegram report
 
-## Accuracy Rules
-- Base RPM estimates on real advertiser data where available — otherwise mark as "estimate"
-- Competition level must come from search results (YouTube search volume, TikTok saturation) — not assumptions
-- Cite at least one source per sub-niche
-- If data is unavailable for a metric, mark as "unknown" — never fabricate numbers
+## Step 1 — Trigger GitHub Actions (Cloud)
 
-## Steps
+Run this to start the full cloud pipeline:
 
-1. Use WebSearch with 3 queries:
-   - "[seed] YouTube niche RPM 2025 2026"
-   - "[seed] TikTok creator fund earnings sub-niche"
-   - "best [seed] content niche low competition high revenue"
-
-2. Identify 10 distinct sub-niches within the seed topic
-
-3. For each sub-niche, research and score:
-   - **RPM estimate** ($X–$Y per 1000 views) — based on advertiser category
-   - **Competition level** (Low / Medium / High) — based on search saturation
-   - **Automation score** (1–10) — how much can AI handle? (10 = fully automatable)
-   - **First-mover potential** (High / Medium / Low) — is this under-served?
-   - **Monetization path** — how does money actually come in?
-
-4. Rank by a composite score: (RPM × 0.4) + (Automation × 0.3) + (First-mover × 0.3)
-
-5. Save to `projects/social-media-automation/niche-research/YYYY-MM-DD-[seed-slug].md`
-
-6. Return ranked table + top 3 recommendations in chat
-
-## Output Format (in chat)
-
-```
-## Niche Research: [SEED] — [DATE]
-
-| Rank | Sub-Niche | RPM Est. | Competition | Automation | First-Mover | Score |
-|------|-----------|----------|-------------|------------|-------------|-------|
-| 1    | [name]    | $X–$Y    | Low/Med/High | X/10      | High/Med/Low | X.X  |
-[... 10 rows total]
-
-## Top 3 Picks
-
-### #1 — [Sub-Niche Name]
-- **Why:** [2 sentences — RPM + automation + gap in market]
-- **Content format:** [what works here — shorts, long-form, tutorials, reactions]
-- **Monetization:** [AdSense + sponsorships + affiliate / etc.]
-
-### #2 — ...
-### #3 — ...
-
-**Recommendation:** [Which one to pursue and why, given YNAI5 constraints: 8GB RAM laptop, cloud-only video, Phase 1 = TikTok]
+```bash
+gh workflow run niche-research.yml \
+  --repo soloplayer500/YNAI5-SU \
+  -f niche_query="$ARGUMENTS"
 ```
 
-## Saved File Format
-Full research notes per sub-niche with sources, reasoning, and action plan.
+If `gh` CLI is not available, go to:
+**GitHub → Actions → "BRAINAI5 Niche Research" → Run workflow → Enter:** `$ARGUMENTS`
+
+After triggering: **check Telegram** for the summary card with inline YES / NO / PIVOT buttons (arrives within ~3 minutes).
+
+---
+
+## Step 2 — Quick Local Preview (Terminal)
+
+While the cloud job runs, provide a fast local research summary using available tools.
+
+Run 3 web searches:
+1. `"$ARGUMENTS" YouTube niche RPM CPM monetization 2025`
+2. `top "$ARGUMENTS" YouTube channels subscribers growth 2025`
+3. `"$ARGUMENTS" content gap blue ocean underserved niche`
+
+Synthesize into a quick summary table:
+
+| Metric | Value |
+|--------|-------|
+| Est. CPM Range | $X–$Y |
+| Saturation | Blue / Orange / Red |
+| Top Creator | Name + subs |
+| Best Format | Format type |
+| #1 Blue Ocean Gap | Description |
+
+**Accuracy rules:**
+- Mark estimates as "estimate" if not from search results
+- Never fabricate subscriber counts or revenue figures
+- If data is unavailable for a metric, write "unknown"
+
+---
+
+## Step 3 — Gate Response
+
+After the user sees the Telegram card:
+- **YES tap** → Phase 2 auto-runs (Google Sheets + HTML dashboard committed to repo)
+- **NO tap** → Research discarded
+- **PIVOT tap** → Re-run with new query: re-trigger with new `niche_query`
+- **TIMEOUT (10 min)** → Manually trigger Phase 2 when ready:
+  ```bash
+  gh workflow run niche-approve.yml \
+    --repo soloplayer500/YNAI5-SU \
+    -f niche_slug="[slug-from-phase-1]"
+  ```
+
+---
+
+## Step 4 — Results Location
+
+After Phase 2 completes:
+- **JSON report**: `projects/niche-research/output/reports/YYYY-MM-DD-[slug].json`
+- **HTML dashboard**: `projects/niche-research/output/dashboards/YYYY-MM-DD-[slug].html`
+- **Google Sheets**: 5 tabs auto-populated (Niche_Tracker, Creator_Tracker, Format_Performance, Opportunity_Log, Research_Journal)
+- **Telegram**: Full deep dive card sent to personal chat
+
+---
+
+## Fallback (No GitHub CLI + No Cloud)
+
+If GitHub Actions is unavailable, do full local research:
+
+1. Run 5 Brave searches (audience, monetization, competitors, formats, gaps)
+2. Synthesize into the JSON schema below
+3. Save to `projects/niche-research/output/reports/YYYY-MM-DD-[slug].json`
+4. Run: `python projects/niche-research/dashboard_gen.py [report-path]`
+5. Open the generated HTML dashboard
+
+**JSON schema for local save:**
+```json
+{
+  "niche": "$ARGUMENTS",
+  "category": "Tech/AI | Finance | Lifestyle | Gaming | Education | Other",
+  "query": "$ARGUMENTS",
+  "date": "YYYY-MM-DD",
+  "slug": "slug-form",
+  "stats": {
+    "growth_rate": 14,
+    "saturation": "Blue",
+    "cpm_low": 8,
+    "cpm_high": 14,
+    "audience_m": 22,
+    "entry_barrier": "Low"
+  },
+  "creators": [{"name":"...","subs":500000,"growth_rate_12mo":"45%","est_monthly_rev":"3500","platform":"YouTube","format_innovation":"..."}],
+  "formats":  [{"name":"...","platform":"YouTube","avg_views":120000,"ctr_pct":8.5,"retention_pct":52,"shares_est":800,"cpm":12.5,"why":"..."}],
+  "blue_ocean":[{"name":"...","why":"...","audience_m":8,"entry_barrier":"Low","effort_hours":40,"rpm_est":"10-15"}],
+  "summary": "2-3 sentence opportunity summary",
+  "notes": ""
+}
+```
