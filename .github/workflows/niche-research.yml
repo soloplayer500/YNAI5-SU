@@ -1,4 +1,4 @@
-name: BRAINAI5 Niche Research
+name: BRAINAI5 Niche Research (Fully Automated)
 
 on:
   workflow_dispatch:
@@ -7,17 +7,12 @@ on:
         description: "Niche to research (e.g. 'betrayal karma narratives')"
         required: true
         type: string
-      gate_timeout:
-        description: "Seconds to wait for Telegram YES/NO response (default 600 = 10 min)"
-        required: false
-        default: "600"
-        type: string
 
 jobs:
-  research:
-    name: Phase 1 — Research & Telegram Gate
+  research-and-deepdive:
+    name: Research → Sheets → Dashboard → Telegram
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -30,23 +25,40 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run Phase 1 Research + Telegram Gate
+      - name: Install dependencies
+        run: pip install gspread google-auth
+
+      - name: Phase 1 — Niche Research
         env:
           NICHE_QUERY: ${{ inputs.niche_query }}
-          GATE_TIMEOUT_SECONDS: ${{ inputs.gate_timeout }}
           BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python projects/niche-research/niche_research.py
 
-      - name: Commit research report (on YES approval)
-        if: success()
+      - name: Derive slug from query
+        id: slug
+        run: |
+          SLUG=$(python -c "import re; print(re.sub(r'[^a-z0-9]+', '-', '${{ inputs.niche_query }}'.lower()).strip('-'))")
+          echo "value=$SLUG" >> "$GITHUB_OUTPUT"
+
+      - name: Phase 2 — Sheets + Dashboard + Telegram Report
+        env:
+          NICHE_SLUG: ${{ steps.slug.outputs.value }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_SHEETS_ID: ${{ secrets.GOOGLE_SHEETS_ID }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: python projects/niche-research/niche_deepdive.py
+
+      - name: Commit all output
         run: |
           git config user.name "BRAINAI5 Bot"
           git config user.email "brainai5@ynai5.local"
-          git add projects/niche-research/output/reports/ || true
-          git diff --staged --quiet || git commit -m "feat: niche research — ${{ inputs.niche_query }}"
+          git add projects/niche-research/output/ || true
+          git diff --staged --quiet || git commit -m "feat: niche research complete — ${{ inputs.niche_query }}"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

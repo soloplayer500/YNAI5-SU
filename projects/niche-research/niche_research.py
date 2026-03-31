@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
 """
-BRAINAI5 V3 — Phase 1: Niche Research
+BRAINAI5 V3 — Phase 1: Niche Research (Fully Automated)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Runs on GitHub Actions. Uses Brave Search + Claude Haiku.
-Sends Telegram summary card with inline YES / NO / PIVOT keyboard.
-Polls for callback_query response (10-min window).
-
-Exit codes:
-  0 = YES approved → Phase 2 can proceed
-  1 = NO / PIVOT / TIMEOUT → stop
+Runs on GitHub Actions. No gate — fully automated.
+5-layer Brave research → Claude Haiku synthesis → save JSON → Telegram notify.
+Phase 2 (Sheets + dashboard) runs automatically after this script.
 
 Usage:
   NICHE_QUERY="betrayal karma narratives" python niche_research.py
@@ -19,7 +15,6 @@ import json
 import os
 import re
 import sys
-import time
 import urllib.parse
 import urllib.request
 from datetime import datetime
@@ -42,9 +37,6 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 TG_TOKEN      = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TG_CHAT_ID    = os.environ.get("TELEGRAM_CHAT_ID", "")
 NICHE_QUERY   = os.environ.get("NICHE_QUERY", sys.argv[1] if len(sys.argv) > 1 else "")
-
-GATE_TIMEOUT  = int(os.environ.get("GATE_TIMEOUT_SECONDS", "600"))  # 10 min default
-
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 def slugify(text: str) -> str:
@@ -141,80 +133,6 @@ def tg_request(method: str, payload: dict) -> dict:
 
 def tg_send(text: str):
     tg_request("sendMessage", {"chat_id": TG_CHAT_ID, "text": text, "parse_mode": "HTML"})
-
-
-def tg_send_gate_card(text: str):
-    """Send summary card with inline YES / NO / PIVOT keyboard."""
-    result = tg_request(
-        "sendMessage",
-        {
-            "chat_id": TG_CHAT_ID,
-            "text": text,
-            "parse_mode": "HTML",
-            "reply_markup": {
-                "inline_keyboard": [
-                    [
-                        {"text": "✅ YES — Deep dive", "callback_data": "YES"},
-                        {"text": "❌ NO — Discard", "callback_data": "NO"},
-                        {"text": "🔄 PIVOT", "callback_data": "PIVOT"},
-                    ]
-                ]
-            },
-        },
-    )
-    msg_id = result.get("result", {}).get("message_id", "")
-    log("TG", f"Gate card sent (msg_id={msg_id})")
-    return str(msg_id)
-
-
-def tg_answer_callback(callback_id: str):
-    """Dismiss loading spinner after user taps inline button."""
-    tg_request("answerCallbackQuery", {"callback_query_id": callback_id, "text": "✅ Got it!"})
-
-
-def tg_get_latest_offset() -> int | None:
-    """Get update offset so we only see NEW updates after this point."""
-    result = tg_request("getUpdates", {"offset": -1, "limit": 1})
-    updates = result.get("result", [])
-    if updates:
-        return updates[-1]["update_id"] + 1
-    return None
-
-
-def tg_poll_gate(timeout_seconds: int = 600) -> str:
-    """
-    Long-poll for callback_query from the authorized chat.
-    Returns: YES | NO | PIVOT | TIMEOUT
-    Uses allowed_updates=["callback_query"] to avoid consuming bridge bot messages.
-    """
-    offset = tg_get_latest_offset()
-    log("GATE", f"Polling for inline button tap (offset={offset}, timeout={timeout_seconds}s)...")
-
-    start = time.time()
-    while time.time() - start < timeout_seconds:
-        params: dict = {
-            "timeout": 30,
-            "allowed_updates": ["callback_query"],
-        }
-        if offset is not None:
-            params["offset"] = offset
-
-        result = tg_request("getUpdates", params)
-        for update in result.get("result", []):
-            offset = update["update_id"] + 1
-            cb = update.get("callback_query")
-            if not cb:
-                continue
-            from_id = cb.get("from", {}).get("id")
-            if str(from_id) != str(TG_CHAT_ID):
-                continue  # Not from our authorized user
-            response = cb.get("data", "").upper()
-            tg_answer_callback(cb["id"])
-            log("GATE", f"Response received: {response}")
-            return response
-
-    log("GATE", "Timeout — no response")
-    return "TIMEOUT"
 
 
 # ── Research Pipeline ──────────────────────────────────────────────────────────
@@ -359,7 +277,7 @@ def build_summary_card(data: dict) -> str:
         f"\u2514\u2500 {top_o.get('name', 'N/A')}: {top_o.get('why', '')[:100]}\n\n"
         f"\U0001f4a1 <b>SUMMARY:</b>\n{data.get('summary', '')}\n\n"
         "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n"
-        "<i>Tap a button below to continue:</i>"
+        "<i>Running deep dive automatically...</i>"
     )
 
 
@@ -379,47 +297,13 @@ def main():
     report_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
     log("REPORT", f"Saved: {report_path}")
 
-    # 3. Send Telegram gate card
+    # 3. Send Telegram summary card (no gate — deep dive runs automatically)
     card = build_summary_card(data)
-    tg_send_gate_card(card)
+    tg_send(card)
 
-    # 4. Wait for user tap
-    response = tg_poll_gate(timeout_seconds=GATE_TIMEOUT)
-
-    if response == "YES":
-        tg_send(
-            f"\u2705 <b>Approved!</b> Deep dive running for <b>{NICHE_QUERY}</b>...\n\n"
-            f"<i>Google Sheets + HTML dashboard being generated now.</i>"
-        )
-        # Mark approval for Phase 2 workflow to detect
-        (REPORTS_DIR / f"{today}-{slug}.approved").write_text("YES", encoding="utf-8")
-        log("GATE", f"Approved. Slug: {slug}")
-        print(f"APPROVED_SLUG:{slug}", flush=True)
-        sys.exit(0)
-
-    elif response == "NO":
-        tg_send(f"\u274c Research discarded for: <b>{NICHE_QUERY}</b>")
-        report_path.unlink(missing_ok=True)
-        log("GATE", "User declined — report deleted")
-        sys.exit(1)
-
-    elif response == "PIVOT":
-        tg_send(
-            f"\U0001f504 Pivot requested.\n\n"
-            f"Go to GitHub Actions \u2192 <b>BRAINAI5 Niche Research</b> \u2192 Run workflow\n"
-            f"Set <code>niche_query</code> to your new query."
-        )
-        log("GATE", "User requested pivot")
-        sys.exit(1)
-
-    else:  # TIMEOUT
-        tg_send(
-            f"\u23f3 No response for <b>{NICHE_QUERY}</b>.\n\n"
-            f"Report saved. Trigger <b>BRAINAI5 Deep Dive</b> workflow manually when ready:\n"
-            f"<code>niche_slug = {slug}</code>"
-        )
-        log("GATE", "Timeout — report preserved for manual approval")
-        sys.exit(1)
+    # 4. Print slug for workflow to pick up
+    print(f"RESEARCH_SLUG:{slug}", flush=True)
+    log("DONE", f"Research complete. Slug: {slug}")
 
 
 if __name__ == "__main__":

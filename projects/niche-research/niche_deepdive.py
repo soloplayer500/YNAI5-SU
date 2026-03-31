@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-BRAINAI5 V3 — Phase 2: Deep Dive Orchestrator
+BRAINAI5 V3 — Phase 2: Deep Dive Orchestrator (Fully Automated)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Runs after user approves Phase 1. Called by niche-approve.yml.
+Runs automatically after Phase 1 (niche_research.py) completes.
+No manual approval needed — called directly by niche-research.yml.
 
 Steps:
   1. Find JSON report for slug
