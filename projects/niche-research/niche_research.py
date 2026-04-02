@@ -207,12 +207,16 @@ Include 5-10 creators, 4-6 formats, 3-5 blue ocean gaps. Base all numbers on the
 
     raw = claude_analyze(synthesis_prompt)
 
-    # Parse JSON — find first {...} block
+    # Parse JSON — try code fences first, then bare {…} block
     data: dict = {}
     try:
-        match = re.search(r"\{.*\}", raw, re.DOTALL)
+        # Strip markdown code fences if present (```json ... ``` or ``` ... ```)
+        fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
+        bare_match  = re.search(r"\{.*\}", raw, re.DOTALL)
+        match = fence_match or bare_match
         if match:
-            data = json.loads(match.group())
+            json_str = fence_match.group(1) if fence_match else bare_match.group()
+            data = json.loads(json_str)
         else:
             raise ValueError("No JSON block found in Claude response")
     except Exception as e:
