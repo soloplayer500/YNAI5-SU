@@ -172,6 +172,8 @@ _These govern how I approach ALL tasks — from simple questions to complex buil
 
 ### Productivity Skills
 - `/email-check [query]` — search Gmail via MCP (brand deals, notifications, crypto alerts)
+- `/md-update [scope?]` — review key .md files for staleness, propose changes, write only with confirmation
+- `/perplexity [query] [--model sonar|sonar-pro] [--save]` — Perplexity Pro sub-agent for real-time web research with citations (add key when ready)
 
 ## Key Imports
 @context/profile.md
