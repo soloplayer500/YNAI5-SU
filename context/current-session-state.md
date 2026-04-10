@@ -1,40 +1,38 @@
 # Current Session State
-_Auto-updated by session-backup.py at 2026-03-21 23:06:25 (trigger: compact)_
+_Updated: 2026-04-10 (end of Session 21)_
 
-## Last Session Context
+## Last Session Summary
+Session 21 — VM Architecture Audit + Stabilization + GitHub CI/CD + Vertex AI + Ollama
 
-Session backup from 2026-03-21 23:06:25 (trigger: compact).
-Workspace: C:/Users/shema/OneDrive/Desktop/YNAI5-SU
+### What Was Fully Completed
+- ynai5-bridge.service disabled (was crash-looping 59,926 times)
+- Dashboard symlink: `/ynai5_runtime/dashboard` → `~/YNAI5_AI_CORE/dashboard`
+- Netdata secured to localhost (port 19999 closed externally)
+- All 6 VM endpoints verified green
+- Vertex AI routing added to chat_server.py (>500 char → Gemini 1.5 Pro)
+- models.json v0.3.1 with 4-tier routing
+- projects/vm-dashboard/ created in YNAI5-SU GitHub repo
+- vm-sync auto-deploy workflow LIVE and tested (Telegram confirmed)
+- VM_IP + VM_SSH_KEY secrets added to GitHub
+- Session log: sessions/2026-04-10-session-21.md
+- Ollama installed + phi3:mini pulled
+- Ollama moved to docker-compose.yml (systemd disabled, Docker image downloading)
 
---- CURRENT PRIORITIES ---
-# Current Priorities
-_Update this file monthly or whenever focus shifts. Claude checks this at every session start._
+### What To Do First Next Session
+See `actions/next-session-startup.md` for exact commands.
 
-Last Updated: 2026-03-18
+1. Check if Ollama Docker image finished downloading
+2. Start Ollama Docker + pull phi3:mini into volume
+3. Test phi3 inference via REST API
+4. Start Open WebUI container
+5. Add nginx proxy for Open WebUI access
+6. Then: new plans and integrations
 
-## Top Priority (Most Urgent)
-**Crypto & Stock Trading — Capital Growth**
-- Laptop hardware limits video production — social media pipeline paused until better hardware
-- Focus: grow capital through smart crypto/stock plays using the full finance skills suite
-- Current Kraken positions are mostly dust/underwater — need strategy to recover and build
-- Tools ready: /crypto-screen, /crypto-portfolio, /technical-analysis, /portfolio-strategy, /risk-analyze
-- Daily habit: morning briefing (9AM AST auto) → scan opportunities → log predictions → track accuracy
+## VM State
+- Dashboard: http://34.45.31.188 (all services up)
+- Ollama: systemd disabled, Docker image downloading (likely done by next session)
+- Health check: auto-runs daily 9AM AST via GitHub Actions
 
-## Priority 2
-**Prediction Feedback Loop — Build Edge**
-- Log every trade idea as a prediction via /crypto-portfolio --predict
-- Score outcomes weekly → find where Claude's analysis is most accurate
-- Goal: 70%+ accuracy over 20 predictions before scaling position sizes
-- Files: `projects/crypto-monitoring/kraken/predictions.json`, `performance.json`
-
-
---- OPEN ACTIONS ---
-[gmail-triage-pending.md] # Gmail Triage Pending
-[tomorrow-2026-03-11.md] # Tomorrow — 2026-03-11
-
-Run /health-check to verify system. Continue from context/current-session-state.md.
-
-## What To Do First
-1. Check `actions/` for open TODO items
-2. Check `context/current-priorities.md` for top priority
-3. Resume from where the last session left off
+## GitHub Repo
+- https://github.com/soloplayer500/YNAI5-Phase1
+- Latest VM commit: `feat: add Ollama + Open WebUI to docker-compose`
