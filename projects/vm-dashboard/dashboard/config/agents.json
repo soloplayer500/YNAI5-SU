@@ -1,0 +1,36 @@
+{
+  "agents": [
+    {
+      "id": "orchestrator",
+      "name": "YNAI5 Orchestrator",
+      "description": "General purpose — Lyra 5-layer prompt, Gemini Flash Lite",
+      "model": "gemini-flash-lite",
+      "icon": "🧠",
+      "system_prompt_layer": "lyra-full",
+      "notes": "Primary agent. Handles all general queries via Gemini Flash Lite free tier."
+    },
+    {
+      "id": "searcher",
+      "name": "SearXNG Search",
+      "description": "Web search via self-hosted SearXNG on port 8080",
+      "model": "searxng",
+      "icon": "🔍",
+      "system_prompt_layer": "none",
+      "notes": "Routes search queries to 127.0.0.1:8080. No LLM cost."
+    },
+    {
+      "id": "analyst",
+      "name": "Content Analyst",
+      "description": "Script/trend analysis — Gemini Flash Lite (Ollama unavailable on lean VM)",
+      "model": "gemini-flash-lite",
+      "icon": "📊",
+      "system_prompt_layer": "lyra-full",
+      "notes": "Ollama removed — 958MB RAM lean mode. Uses Gemini Flash Lite instead."
+    }
+  ],
+  "_meta": {
+    "version": "0.3.0",
+    "ollama_removed": true,
+    "reason": "VM RAM 958MB — lean mode, Ollama disabled"
+  }
+}

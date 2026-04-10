@@ -1,0 +1,175 @@
+/* layout.css — YNAI5 v0.3.0 Grid, Nav, Panels */
+
+/* ── App Shell ── */
+#app {
+  display: grid;
+  grid-template-rows: var(--header-h) 1fr;
+  grid-template-columns: var(--nav-width) 1fr;
+  grid-template-areas:
+    "header header"
+    "nav    main";
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+#header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-cyan);
+  letter-spacing: 0.05em;
+}
+
+.header-brand .version-tag {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-muted);
+  background: var(--color-border);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ── Nav Sidebar ── */
+#nav {
+  grid-area: nav;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  overflow-y: auto;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+}
+
+.nav-section-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: var(--space-3) var(--space-4) var(--space-1);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  border-left: 2px solid transparent;
+}
+
+.nav-item:hover {
+  background: var(--glass-bg);
+  color: var(--color-text);
+}
+
+.nav-item.active {
+  color: var(--color-cyan);
+  border-left-color: var(--color-cyan);
+  background: var(--color-cyan-dim);
+}
+
+/* ── Main Content ── */
+#main {
+  grid-area: main;
+  padding: var(--space-6);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ── Tab System ── */
+.tab-bar {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.tab-btn:hover { color: var(--color-text); }
+
+.tab-btn.active {
+  color: var(--color-cyan);
+  border-bottom-color: var(--color-cyan);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Panel / Section ── */
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main";
+  }
+  #nav { display: none; }
+}

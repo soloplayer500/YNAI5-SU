@@ -1,0 +1,195 @@
+/* components.css — YNAI5 v0.3.0 Cards, Buttons, Badges, Inputs */
+
+/* ── Glass Card ── */
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  backdrop-filter: var(--glass-blur);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:hover {
+  border-color: rgba(0,229,255,0.25);
+  box-shadow: var(--shadow-cyan);
+}
+
+.card-solid {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-med);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-cyan);
+  color: #000;
+  border: none;
+}
+.btn-primary:hover {
+  background: #00c4dd;
+  box-shadow: var(--shadow-cyan);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+}
+.btn-ghost:hover {
+  background: var(--glass-bg);
+  color: var(--color-text);
+  border-color: var(--glass-border);
+}
+
+.btn-danger {
+  background: var(--color-red-dim);
+  color: var(--color-red);
+  border: 1px solid rgba(255,68,68,0.3);
+}
+.btn-danger:hover {
+  background: rgba(255,68,68,0.25);
+  box-shadow: 0 0 12px rgba(255,68,68,0.2);
+}
+
+.btn-sm {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+.btn-icon:hover {
+  color: var(--color-cyan);
+  background: var(--color-cyan-dim);
+  border-color: var(--glass-border);
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-med);
+  line-height: 1.4;
+}
+
+.badge-cyan   { background: var(--color-cyan-dim);   color: var(--color-cyan);   border: 1px solid rgba(0,229,255,0.3); }
+.badge-green  { background: var(--color-green-dim);  color: var(--color-green);  border: 1px solid rgba(57,255,20,0.3); }
+.badge-red    { background: var(--color-red-dim);    color: var(--color-red);    border: 1px solid rgba(255,68,68,0.3); }
+.badge-yellow { background: var(--color-yellow-dim); color: var(--color-yellow); border: 1px solid rgba(255,204,0,0.3); }
+.badge-muted  { background: var(--color-border);     color: var(--color-muted); }
+
+/* ── Tags ── */
+.tag {
+  display: inline-block;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  background: var(--color-border);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── Form inputs ── */
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 3px var(--color-cyan-dim);
+}
+
+.input::placeholder { color: var(--color-muted-2); }
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-4) 0;
+}
+
+/* ── Status dot (inline) ── */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.dot-green  { background: var(--color-green);  box-shadow: 0 0 6px var(--color-green); }
+.dot-red    { background: var(--color-red);    box-shadow: 0 0 6px var(--color-red); }
+.dot-yellow { background: var(--color-yellow); box-shadow: 0 0 6px var(--color-yellow); }
+.dot-muted  { background: var(--color-muted); }
+
+/* ── Code block ── */
+.code-block {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.5;
+}
+
+/* ── Kill switch ── */
+#kill-switch-btn {
+  background: var(--color-red-dim);
+  color: var(--color-red);
+  border: 1px solid rgba(255,68,68,0.4);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  letter-spacing: 0.05em;
+}
+#kill-switch-btn:hover {
+  background: rgba(255,68,68,0.3);
+  box-shadow: 0 0 12px rgba(255,68,68,0.25);
+}

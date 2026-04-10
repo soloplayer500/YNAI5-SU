@@ -1,0 +1,59 @@
+{
+  "routing": [
+    {
+      "rank": 1,
+      "id": "gemini-flash-lite",
+      "name": "Gemini Flash Lite",
+      "provider": "Google",
+      "free": true,
+      "daily_limit": 1500,
+      "cost_per_call": 0,
+      "latency_ms": 800,
+      "notes": "Primary \u2014 free tier, fast, 1500 calls/day"
+    },
+    {
+      "rank": 2,
+      "id": "gemini-1.5-pro-vertex",
+      "name": "Gemini 1.5 Pro (Vertex AI)",
+      "provider": "Google (Vertex AI)",
+      "free": true,
+      "monthly_credit_usd": 10,
+      "cost_per_call": 0,
+      "latency_ms": 2000,
+      "notes": "Complex tasks (>500 chars). Uses Gemini Pro credit. Falls back to Flash Lite on error."
+    },
+    {
+      "rank": 3,
+      "id": "kimi-k2.5",
+      "name": "Kimi K2.5",
+      "provider": "Moonshot AI (via OpenRouter)",
+      "free": false,
+      "cost_per_call": 0.0002,
+      "latency_ms": 1200,
+      "notes": "Fallback \u2014 256K context, agent swarms, $0.0002/call"
+    },
+    {
+      "rank": 4,
+      "id": "claude-haiku",
+      "name": "Claude Haiku",
+      "provider": "Anthropic",
+      "free": false,
+      "cost_per_call": 0.0005,
+      "latency_ms": 900,
+      "notes": "Last resort \u2014 fast, cheap, reliable"
+    }
+  ],
+  "budget": {
+    "daily_usd": 5,
+    "daily_awg": 8.95,
+    "alert_threshold_usd": 4,
+    "hard_ceiling_usd": 5,
+    "currency_note": "1 USD = 1.79 AWG"
+  },
+  "_meta": {
+    "version": "0.3.1",
+    "ollama_removed": true,
+    "reason": "VM RAM 958MB \u2014 lean mode, Ollama disabled. Gemini Flash Lite is rank 1.",
+    "vertex_ai": "gemini-1.5-pro via Vertex AI, SA: hive-sync-key.json"
+  }
+}

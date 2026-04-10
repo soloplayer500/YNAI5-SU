@@ -1,0 +1,48 @@
+name: Deploy VM Dashboard
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'projects/vm-dashboard/dashboard/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Deploy dashboard to VM
+        env:
+          VM_IP: ${{ secrets.VM_IP }}
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          echo "$VM_SSH_KEY" > /tmp/vm_key && chmod 600 /tmp/vm_key
+
+          # Syntax check main.py before deploying
+          python3 -c "import ast; ast.parse(open('projects/vm-dashboard/dashboard/main.py').read()); print('Syntax OK')"
+
+          # Rsync dashboard files to VM
+          rsync -avz --exclude="*.pyc" --exclude="__pycache__" \
+            -e "ssh -i /tmp/vm_key -o StrictHostKeyChecking=no" \
+            projects/vm-dashboard/dashboard/ \
+            shema@$VM_IP:~/YNAI5_AI_CORE/dashboard/
+
+          # Restart service and verify
+          HTTP_CODE=$(ssh -i /tmp/vm_key -o StrictHostKeyChecking=no shema@$VM_IP \
+            "sudo systemctl restart ynai5-dashboard && sleep 3 && curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000")
+
+          echo "Post-deploy HTTP status: $HTTP_CODE"
+
+          # Notify via Telegram
+          STATUS=$([ "$HTTP_CODE" = "200" ] && echo "✅ Deploy succeeded" || echo "❌ Deploy failed (HTTP $HTTP_CODE)")
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d text="[YNAI5 Deploy] $STATUS — dashboard pushed from GitHub"
+
+          [ "$HTTP_CODE" = "200" ] && exit 0 || exit 1

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YNAI5 AI Control Center</title>
+
+  <!-- CSS Design System (load order matters) -->
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/reset.css" />
+  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/metrics.css" />
+  <link rel="stylesheet" href="assets/css/chat.css" />
+  <link rel="stylesheet" href="assets/css/theme.css" />
+
+  <style>
+    /* Inline: loading screen + agent grid (not worth a separate file) */
+    #app { display: none; }
+
+    .agent-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      text-align: center;
+      padding: var(--space-4);
+    }
+
+    .log-view {
+      width: 100%;
+      height: 320px;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text);
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      resize: vertical;
+    }
+
+    .log-view.hidden { display: none; }
+
+    .log-tab-bar {
+      display: flex;
+      gap: var(--space-1);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-3);
+    }
+
+    .log-tab-btn {
+      padding: var(--space-1) var(--space-3);
+      font-size: var(--font-size-xs);
+      font-family: var(--font-mono);
+      color: var(--color-muted);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .log-tab-btn:hover { background: var(--glass-bg); color: var(--color-text); }
+    .log-tab-btn.active { background: var(--color-cyan-dim); color: var(--color-cyan); border-color: var(--glass-border); }
+
+    #agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--font-size-sm);
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: var(--color-muted); }
+    .stat-value { font-weight: var(--font-weight-med); color: var(--color-text); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     APP SHELL (hidden until auth passes)
+════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- ── Header ── -->
+  <header id="header">
+    <div class="header-brand">
+      <span>YNAI5</span>
+      <span class="version-tag" id="version-tag">v0.3.0</span>
+      <span class="badge badge-green" style="font-size:0.65rem">LIVE</span>
+    </div>
+    <div class="header-actions">
+      <span id="last-refresh" style="font-size:0.7rem;color:var(--color-muted)">--:--:--</span>
+      <button id="kill-switch-btn" title="Emergency stop all services">⛔ KILL</button>
+      <button id="theme-toggle" aria-label="Toggle theme">
+        <span id="icon-sun">☀️</span>
+        <span id="icon-moon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Nav Sidebar ── -->
+  <nav id="nav">
+    <div class="nav-section-label">Dashboard</div>
+    <div class="nav-item active" data-tab="overview">📊 Overview</div>
+    <div class="nav-item" data-tab="logs">📋 Logs</div>
+    <div class="nav-item" data-tab="status">🔍 Status Board</div>
+    <div class="nav-item" data-tab="chat">💬 Chat</div>
+
+    <div class="nav-section-label" style="margin-top:var(--space-4)">System</div>
+    <div class="nav-item" style="cursor:default;pointer-events:none">
+      <span class="dot dot-pulse-green"></span>
+      &nbsp;VM: ynai5-core
+    </div>
+    <div class="nav-item" style="cursor:default;pointer-events:none;font-size:0.7rem;color:var(--color-muted)">
+      34.45.31.188 · Ubuntu 22.04
+    </div>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main id="main">
+
+    <!-- Top-level tab bar -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+      <button class="tab-btn" data-tab="logs">📋 Logs</button>
+      <button class="tab-btn" data-tab="status">🔍 Status Board</button>
+      <button class="tab-btn" data-tab="chat">💬 Chat</button>
+    </div>
+
+    <!-- ═══════ TAB: OVERVIEW ═══════ -->
+    <div id="tab-overview" class="tab-panel active">
+
+      <!-- Stage Tracker -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Phase Tracker</div>
+          <span class="badge badge-cyan">Phase 1</span>
+        </div>
+        <div class="stage-tracker">
+          <div class="stage-step done">✅ Infrastructure</div>
+          <div class="stage-connector"></div>
+          <div class="stage-step done">✅ Docker Stack</div>
+          <div class="stage-connector"></div>
+          <div class="stage-step done">✅ Dashboard v0.2.1</div>
+          <div class="stage-connector"></div>
+          <div class="stage-step active">▶ v0.3.0 Control Center</div>
+          <div class="stage-connector"></div>
+          <div class="stage-step">⬜ Revenue</div>
+        </div>
+      </div>
+
+      <!-- System Metrics -->
+      <div>
+        <div style="font-size:0.75rem;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-3)">System Metrics</div>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">RAM Used</div>
+            <div class="metric-value" id="metric-ram">--</div>
+            <div class="metric-sub">4GB swap available</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">CPU</div>
+            <div class="metric-value" id="metric-cpu">--</div>
+            <div class="metric-sub">2 vCPU e2-micro</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Disk Used</div>
+            <div class="metric-value" id="metric-disk">--</div>
+            <div class="metric-sub">30GB balanced PD</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Uptime</div>
+            <div class="metric-value" id="metric-uptime">--</div>
+            <div class="metric-sub">since last reboot</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Daily Budget</div>
+            <div class="metric-value" id="metric-budget">$0.00 / $5.00</div>
+            <div class="usage-bar"><div class="usage-bar-fill" id="budget-bar-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Docker Services Quick View -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Docker Services</div>
+          <button class="btn btn-ghost btn-sm" onclick="fetchStatus()">↻ Refresh</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div class="stat-row">
+            <span class="stat-label">SearXNG</span>
+            <span class="stat-value"><span class="dot dot-green"></span> :8080</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">n8n</span>
+            <span class="stat-value"><span class="dot dot-green"></span> :5678</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Portainer</span>
+            <span class="stat-value"><span class="dot dot-green"></span> :9000</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Flask Chat</span>
+            <span class="stat-value"><span class="dot dot-green"></span> :8001</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">nginx</span>
+            <span class="stat-value"><span class="dot dot-green"></span> :8000 (public)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agents -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">AI Agents</div>
+          <span class="badge badge-muted">Gemini Flash Lite · Free tier</span>
+        </div>
+        <div id="agents-grid"></div>
+      </div>
+
+    </div><!-- /tab-overview -->
+
+    <!-- ═══════ TAB: LOGS ═══════ -->
+    <div id="tab-logs" class="tab-panel">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Service Logs</div>
+          <button class="btn btn-ghost btn-sm" onclick="fetchStatus()">↻ Refresh</button>
+        </div>
+
+        <!-- Log sub-tabs -->
+        <div class="log-tab-bar">
+          <button class="log-tab-btn active" data-log="all">All</button>
+          <button class="log-tab-btn" data-log="n8n">n8n</button>
+          <button class="log-tab-btn" data-log="searxng">SearXNG</button>
+          <button class="log-tab-btn" data-log="portainer">Portainer</button>
+          <button class="log-tab-btn" data-log="billing">Billing</button>
+          <button class="log-tab-btn" data-log="uptime">Uptime</button>
+          <button class="log-tab-btn" data-log="orchestrator">Orchestrator</button>
+          <button class="log-tab-btn" data-log="chat_server">Chat Server</button>
+        </div>
+
+        <!-- Log views (one per sub-tab) -->
+        <textarea id="log-all"         class="log-view"        readonly placeholder="Loading..."></textarea>
+        <textarea id="log-n8n"         class="log-view hidden" readonly placeholder="n8n logs..."></textarea>
+        <textarea id="log-searxng"     class="log-view hidden" readonly placeholder="SearXNG logs..."></textarea>
+        <textarea id="log-portainer"   class="log-view hidden" readonly placeholder="Portainer logs..."></textarea>
+        <textarea id="log-billing"     class="log-view hidden" readonly placeholder="Billing sentinel logs..."></textarea>
+        <textarea id="log-uptime"      class="log-view hidden" readonly placeholder="Uptime logs..."></textarea>
+        <textarea id="log-orchestrator" class="log-view hidden" readonly placeholder="Orchestrator logs..."></textarea>
+        <textarea id="log-chat_server" class="log-view hidden" readonly placeholder="Chat server logs..."></textarea>
+      </div>
+    </div><!-- /tab-logs -->
+
+    <!-- ═══════ TAB: STATUS BOARD ═══════ -->
+    <div id="tab-status" class="tab-panel">
+      <div class="status-board">
+        <div class="panel-header">
+          <div class="panel-title">System Status Board</div>
+          <button class="btn btn-ghost btn-sm" onclick="fetchStatus()">↻ Refresh</button>
+        </div>
+        <div id="status-grid" class="service-grid">
+          <div style="color:var(--color-muted);font-size:0.8rem">Loading checks...</div>
+        </div>
+        <div id="status-summary">Fetching status...</div>
+      </div>
+    </div><!-- /tab-status -->
+
+    <!-- ═══════ TAB: CHAT ═══════ -->
+    <div id="tab-chat" class="tab-panel">
+      <div class="chat-container">
+        <div id="chat-thread"></div>
+        <div class="chat-input-bar">
+          <textarea
+            id="chat-input"
+            placeholder="Ask YNAI5 anything... (Enter to send, Shift+Enter for newline)"
+            rows="1"
+          ></textarea>
+          <button id="chat-send" title="Send message">➤</button>
+        </div>
+      </div>
+    </div><!-- /tab-chat -->
+
+  </main>
+</div><!-- /app -->
+
+<!-- ES Module entry point (loads after DOM) -->
+<script type="module" src="assets/js/main.js"></script>
+
+<!-- Expose fetchStatus globally for onclick handlers -->
+<script type="module">
+  import { fetchStatus } from './assets/js/metrics.js';
+  window.fetchStatus = fetchStatus;
+</script>
+
+</body>
+</html>

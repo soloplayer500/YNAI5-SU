@@ -1,0 +1,51 @@
+name: YNAI5 VM Health Check
+
+on:
+  schedule:
+    - cron: '0 13 * * *'  # 9AM AST = 13:00 UTC daily
+  workflow_dispatch:       # allow manual trigger from GitHub Actions UI
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Run VM health check
+        env:
+          VM_IP: ${{ secrets.VM_IP }}
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          echo "$VM_SSH_KEY" > /tmp/vm_key && chmod 600 /tmp/vm_key
+
+          RESULT=$(ssh -i /tmp/vm_key -o StrictHostKeyChecking=no shema@$VM_IP "
+            LINES=''
+            for ep in / /status.json /api/status /api/ynai5logs; do
+              code=\$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000\$ep 2>/dev/null)
+              icon=\$([ \"\$code\" = '200' ] && echo '✅' || echo '❌')
+              LINES=\"\$LINES\n\$icon \$ep → \$code\"
+            done
+            for ep in /health /api/env; do
+              code=\$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8001\$ep 2>/dev/null)
+              icon=\$([ \"\$code\" = '200' ] && echo '✅' || echo '❌')
+              LINES=\"\$LINES\n\$icon \$ep (8001) → \$code\"
+            done
+            RAM=\$(free -m | awk '/Mem/{print \$3\"/\"\$2\" MB\"}')
+            echo -e \"\$LINES\nRAM: \$RAM\"
+          " 2>&1)
+
+          STATUS=$(echo "$RESULT" | grep -q '❌' && echo '⚠️ ISSUE' || echo '✅ ALL OK')
+
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d parse_mode="HTML" \
+            -d text="<b>[YNAI5 VM] ${STATUS}</b>
+$(echo "$RESULT" | head -20)"
+
+          echo "--- Health Check Result ---"
+          echo "$RESULT"
+
+          # Fail the workflow if any endpoint is down
+          echo "$RESULT" | grep -q '❌' && exit 1 || exit 0
