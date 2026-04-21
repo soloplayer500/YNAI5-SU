@@ -41,3 +41,7 @@ projects/system-health/logs/
 # Keep folder structure in git
 !**/.gitkeep
 nul
+
+# Router test artifacts (auto-generated on RYN)
+router.log
+projects/vm-dashboard/router.log
