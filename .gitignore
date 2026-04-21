@@ -45,3 +45,9 @@ nul
 # Router test artifacts (auto-generated on RYN)
 router.log
 projects/vm-dashboard/router.log
+
+# RYN runtime artifacts (auto-generated, not for version control)
+ryn/brain/chunks/
+ryn/brain/index/
+ryn/brain/*.log
+ryn/brain/state.json

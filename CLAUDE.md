@@ -40,16 +40,30 @@ YNAI5-Phase1/
 │       ├── characters/protagonist/        ← Main character refs + CHARACTER-BIBLE.md
 │       ├── environments/                  ← World locations
 │       └── brand/                         ← Logos, overlays
-└── projects/
-    ├── README.md                          ← Project index
-    ├── psychecore/                        ← Modular AI reasoning framework
-    ├── crypto-monitoring/                 ← Crypto tracking & analysis
-    ├── multi-ai-prompt-optimization/      ← Prompt engineering frameworks
-    ├── social-media-automation/           ← YT/TikTok/IG growth
-    ├── personal-ai-infrastructure/        ← AI ecosystem design
-    ├── passive-income/                    ← AI-automated revenue streams (Telegram screener, newsletter, Shorts)
-    ├── niche-research/                    ← BRAINAI5 V3 — cloud niche research agent (GitHub Actions + Sheets + Telegram gate)
-    └── system-health/                     ← Health monitoring, crash recovery, startup
+├── projects/
+│   ├── README.md                          ← Project index
+│   ├── psychecore/                        ← Modular AI reasoning framework
+│   ├── crypto-monitoring/                 ← Crypto tracking & analysis
+│   ├── multi-ai-prompt-optimization/      ← Prompt engineering frameworks
+│   ├── social-media-automation/           ← YT/TikTok/IG growth
+│   ├── personal-ai-infrastructure/        ← AI ecosystem design
+│   ├── passive-income/                    ← AI-automated revenue streams
+│   ├── niche-research/                    ← BRAINAI5 V3 — cloud niche research agent
+│   ├── vm-dashboard/                      ← FastAPI dashboard + router.py (YNAI5-VM)
+│   └── system-health/                     ← Health monitoring, crash recovery, startup
+└── ryn/                                   ← RYN runtime layer (brain + RAG + local scripts)
+    ├── ryn-core/                          ← Shared core scripts (rag_indexer.py)
+    ├── ryn-vm/                            ← VM-specific automation refs
+    ├── ryn-local/                         ← Local-only utilities
+    ├── brain/                             ← Runtime state (state.json, logs, RAG index)
+    │   ├── state.json                     ← Model availability + system status (gitignored)
+    │   ├── memory.md                      ← Brain-specific runtime notes
+    │   ├── tasks.log                      ← Append-only task log (gitignored)
+    │   ├── communication.log             ← Inter-component log (gitignored)
+    │   ├── session_state.md              ← Current session snapshot
+    │   ├── index/                         ← RAG keyword index (gitignored)
+    │   └── chunks/                        ← RAG text chunks (gitignored)
+    └── legacy/                            ← Archived/deprecated files
 ```
 
 ## Workflow Orchestration Rules

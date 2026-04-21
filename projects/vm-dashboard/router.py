@@ -58,6 +58,22 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 GEMINI_API_KEY    = os.getenv("GEMINI_API_KEY", "")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 
+# ── Brain State (RYN CORE v3) ─────────────────────────────────────────────────
+# Reads ryn/brain/state.json to check which models are available.
+# Falls back to True (available) if the state file cannot be read.
+_BRAIN_STATE: dict = {}
+_state_path = Path(__file__).parent.parent.parent / "ryn" / "brain" / "state.json"
+if _state_path.exists():
+    try:
+        with open(_state_path, encoding="utf-8") as _f:
+            _BRAIN_STATE = json.load(_f)
+    except Exception:
+        pass
+
+def _model_available(name: str) -> bool:
+    """Check brain state for model availability. Defaults to True if unknown."""
+    return _BRAIN_STATE.get("models", {}).get(name, {}).get("available", True)
+
 # ── Logging ───────────────────────────────────────────────────────────────────
 LOG_PATH = Path(os.getenv("ROUTER_LOG", "/ynai5_runtime/logs/router.log"))
 if not LOG_PATH.parent.exists():
@@ -88,6 +104,8 @@ MODEL_META = {
 # ── Tier 1: Ollama (local, free) ──────────────────────────────────────────────
 def _try_ollama(prompt: str) -> Optional[str]:
     """Attempt local Ollama inference. Returns None if unavailable."""
+    if not _model_available("ollama"):
+        return None
     try:
         import urllib.request
         payload = json.dumps({
@@ -110,6 +128,8 @@ def _try_ollama(prompt: str) -> Optional[str]:
 # ── Tier 2: HuggingFace Inference API (free) ──────────────────────────────────
 def _try_huggingface(prompt: str) -> Optional[str]:
     """HuggingFace Inference API — free tier, no billing needed."""
+    if not _model_available("huggingface"):
+        return None
     if not HF_API_TOKEN:
         return None
     try:
@@ -143,6 +163,8 @@ def _try_huggingface(prompt: str) -> Optional[str]:
 # ── Tier 3: OpenRouter (free community models) ────────────────────────────────
 def _try_openrouter(prompt: str) -> Optional[str]:
     """OpenRouter free tier — mistral-7b-instruct:free (truly $0/call)."""
+    if not _model_available("openrouter"):
+        return None
     if not OPENROUTER_API_KEY:
         return None
     try:
@@ -175,6 +197,8 @@ def _try_openrouter(prompt: str) -> Optional[str]:
 # ── Tier 4: Gemini Flash (Google free tier, 1500/day) ─────────────────────────
 def _try_gemini(prompt: str) -> Optional[str]:
     """Google Gemini 1.5 Flash — free tier, 1500 requests/day."""
+    if not _model_available("gemini"):
+        return None
     if not GEMINI_API_KEY:
         return None
     try:
@@ -206,6 +230,8 @@ def _try_gemini(prompt: str) -> Optional[str]:
 # ── Tier 5: Claude Haiku (paid — last resort, tracked) ───────────────────────
 def _try_claude(prompt: str) -> Optional[str]:
     """Anthropic Claude Haiku — paid fallback. Every call is logged."""
+    if not _model_available("claude"):
+        return None
     if not ANTHROPIC_API_KEY:
         return None
     try:
