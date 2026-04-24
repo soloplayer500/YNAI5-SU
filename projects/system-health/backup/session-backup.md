@@ -1,6 +1,6 @@
 # YNAI5 Session Backup
 
-**Saved:** 2026-04-23 20:12:46  
+**Saved:** 2026-04-23 20:48:53  
 **Trigger:** `stop`  
 **Workspace:** `C:/Users/shema/OneDrive/Desktop/YNAI5-SU`
 
@@ -11,7 +11,7 @@
 Copy-paste this into Claude Code to restore context:
 
 ```
-Session backup from 2026-04-23 20:12:46 (trigger: stop).
+Session backup from 2026-04-23 20:48:53 (trigger: stop).
 Workspace: C:/Users/shema/OneDrive/Desktop/YNAI5-SU
 
 --- CURRENT PRIORITIES ---
@@ -51,7 +51,7 @@ Run /health-check to verify system. Continue from context/current-session-state.
 ## Session State
 
 - **Backup trigger:** `stop`
-- **Timestamp:** 2026-04-23 20:12:46
+- **Timestamp:** 2026-04-23 20:48:53
 - **Top priority:** AI Social Media Automation Pipeline
 - **Key files:** memory/MEMORY.md, actions/, context/current-priorities.md
 
@@ -65,7 +65,7 @@ Run /health-check to verify system. Continue from context/current-session-state.
   "permission_mode": "plan",
   "hook_event_name": "Stop",
   "stop_hook_active": false,
-  "last_assistant_message": "---\n\n## HEARTBEAT AGENT DEPLOYED \u00e2\u0153\u2026\n\n**Service status:** `ynai5-heartbeat.service` \u00e2\u2020\u2019 `active (running)`, enabled on boot\n- Memory: **1.48MB** (capped at 50MB)\n- CPU quota: 5%\n- Restart policy: `always`, 5s delay\n\n**Last 5 log lines** (60s intervals):\n```\n2026-04-24 00:10:12 | RAM:346MB | DISK:6901948KB | LOAD:0.59, 0.44, 0.35 | DASH:active | NGINX:active\n2026-04-24 00:11:16 | RAM:349MB | DISK:6901804KB | LOAD:7.12, 2.18, 0.94 | DASH:active | NGINX:active\n2026-04-24 00:12:18 | RAM:289MB | DISK:6901592KB | LOAD:14.50, 5.17, 2.05 | DASH:active | NGINX:active\n```\n\n**Telegram test:** \u00e2\u0153\u2026 Delivered (message_id `1792`). Check `@SoloClaude5_bot` chat for: *\"OK YNAI5 heartbeat agent connected...\"*\n\n**Alert logic (anti-spam):**\n- State-machine dedup via `~/ynai5-agent/alert.state`\n- Fires once on **transition** `ok \u00e2\u2020\u2019 fired` (new issue)\n- Fires once on **recovery** `fired \u00e2\u2020\u2019 ok`\n- No repeat while state unchanged\n- No startup \"OK\" spam\n\n**Alert triggers:**\n| Condition | Threshold |\n|-----------|-----------|\n| dashboard DOWN | `systemctl is-active ynai5-dashboard != active` |\n| nginx DOWN | `systemctl is-active nginx != active` |\n| LOW RAM | available < 100MB |\n\n**Safety:**\n- `.env` at `~/ynai5-agent/.env` \u00e2\u20ac\u201d `chmod 600`, creds reused from existing `/ynai5_runtime/.env`\n- Token never printed, never echoed, never logged\n- Not touched by GitHub (lives on VM only)\n- Log auto-rotates at 2000 lines (~150KB cap)\n\n**Files on VM:**\n```\n~/ynai5-agent/\n\u00e2\u201d\u0153\u00e2\u201d\u20ac\u00e2\u201d\u20ac .env             (600 \u00e2\u20ac\u201d creds)\n\u00e2\u201d\u0153\u00e2\u201d\u20ac\u00e2\u201d\u20ac heartbeat.sh     (755 \u00e2\u20ac\u201d 78 lines)\n\u00e2\u201d\u0153\u00e2\u201d\u20ac\u00e2\u201d\u20ac heartbeat.log    (append-only, rotates)\n\u00e2\u201d\u201d\u00e2\u201d\u20ac\u00e2\u201d\u20ac alert.state      (dedup state)\n/etc/systemd/system/ynai5-heartbeat.service\n```\n\n**Note on load spike:** LOAD hit 14.50 briefly during our SSH session (likely from the journal vacuum + our own activity). It's decaying. Heartbeat will catch it if it doesn't recover."
+  "last_assistant_message": "---\n\n## CONTROL LAYER REPORT\n\n---\n\n**TELEGRAM:**\n- Commands added: `/status` `/logs` `/restart <svc>` `/snapshot`\n- Security: user ID `8569520396` hardcoded \u00e2\u20ac\u201d all others silently rejected\n- Anti-spam: command.log writes; no replies to non-commands\n- Service: `ynai5-commander.service` active, **10.1MB RAM** (cap 40MB)\n- Confirmation message delivered: `msg_id=1794`\n- Safe restart list: `ynai5-dashboard`, `ynai5-gemini`, `nginx` only\n\n**GITHUB:**\n- `ryn/brain/system_summary.md` \u00e2\u20ac\u201d human-readable system state \u00e2\u0153\u2026\n- `ryn/brain/last_report.md` \u00e2\u20ac\u201d event log (4 events recorded) \u00e2\u0153\u2026\n- Commit `ff399a1` pushed to master \u00e2\u0153\u2026\n- State.json, *.log \u00e2\u20ac\u201d still gitignored (runtime only, never committed)\n\n**REMOTE:**\n- `/ynai5_runtime/scripts/remote_exec.sh` \u00e2\u20ac\u201d ready \u00e2\u0153\u2026\n- Tasks: `status | pull | cleanup | restart-dashboard | restart-gemini | restart-nginx`\n- Dry-run verified clean: syntax OK, status task logged\n- No SSH exposure, no new ports opened\n\n**LOGGING:**\n- `/etc/logrotate.d/ynai5` \u00e2\u20ac\u201d 0 errors, active \u00e2\u0153\u2026\n- `rclone-drive.log`: 30MB \u00e2\u2020\u2019 0B (rotated to `.1`, compresses on next cycle)\n- Size trigger: 10MB | Keep: 3 versions | All ynai5 logs covered\n- Heartbeat: log-size alert added (>20MB \u00e2\u2020\u2019 Telegram, once per state)\n\n**LOCAL ROLE:**\n- `ryn/local-role.md` defined and committed \u00e2\u0153\u2026\n- RYN = execution relay only, no runtime daemons\n- Interaction model documented: Telegram \u00e2\u2020\u2019 VM | Claude Code \u00e2\u2020\u2019 SSH/git push \u00e2\u2020\u2019 VM\n\n**SERVICES (all 4 confirmed active):**\n- `ynai5-heartbeat` \u00e2\u0153\u2026 | `ynai5-commander` \u00e2\u0153\u2026 | `ynai5-dashboard` \u00e2\u0153\u2026 | `nginx` \u00e2\u0153\u2026\n\n**ISSUES:**\n- `rclone-drive.log.1` still 32MB on disk (uncompressed) \u00e2\u20ac\u201d will compress automatically on next logrotate cycle\n- RAM at ~297MB available, swap at 778MB \u00e2\u20ac\u201d stable but monitor\n\n**NEXT:**\n1. **Test `/status` in Telegram** \u00e2\u20ac\u201d send command to `@SoloClaude5_bot`, confirm live response\n2. **Compress leftover `.1` logs** \u00e2\u20ac\u201d run `sudo logrotate --force /etc/logrotate.d/ynai5` next session to trigger `delaycompress`\n3. **Wire `/snapshot` to actually push** \u00e2\u20ac\u201d currently returns a notice; can hook it to `remote_exec.sh pull` + git push in a future pass"
 }
 ```
 
