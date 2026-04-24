@@ -1,8 +1,9 @@
 name: Block Syndicate — Daily Screener
 
 on:
-  # PAUSED 2026-04-16 — Block Syndicate on hold, focus shifted to TikTok + shadow trading
-  workflow_dispatch:   # manual trigger only when needed
+  schedule:
+    - cron: '0 12 * * *'   # 8AM AST daily (Block Syndicate daily signal)
+  workflow_dispatch:   # manual trigger still available
 
 jobs:
   run-screener:
