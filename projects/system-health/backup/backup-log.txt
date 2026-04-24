@@ -238,3 +238,9 @@
 [2026-04-24 04:40:00] Backup saved (trigger=stop) → session-backup.md, session-state.json
 [2026-04-24 04:40:20] Backup saved (trigger=stop) → session-backup.md, session-state.json
 [2026-04-24 09:56:08] Backup saved (trigger=stop) → session-backup.md, session-state.json
+[2026-04-24 14:54:31] Backup saved (trigger=compact) → session-backup.md, session-state.json
+[2026-04-24 14:54:40] Backup saved (trigger=compact) → session-backup.md, session-state.json
+[2026-04-24 14:54:57] Backup saved (trigger=compact) → session-backup.md, session-state.json
+[2026-04-24 14:55:04] Backup saved (trigger=compact) → session-backup.md, session-state.json
+[2026-04-24 14:55:52] Backup saved (trigger=compact) → session-backup.md, session-state.json
+[2026-04-24 15:33:07] Backup saved (trigger=stop) → session-backup.md, session-state.json
