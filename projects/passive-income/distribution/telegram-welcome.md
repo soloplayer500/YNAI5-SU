@@ -35,7 +35,7 @@ The VIP tier ($9.99/mo) adds:
 • Monthly macro deep-dive
 • Private Q&A channel
 
-👉 Upgrade: [Gumroad link]
+👉 Upgrade: https://blocksyndicate.gumroad.com/l/vip
 
 Founder pricing: $9.99/mo locked in for the first 30 subscribers.
 
@@ -120,7 +120,7 @@ _This is what screener-channel-bot.py already produces. Keep it clean._
 ━━━━━━━━━━━━━━━━━━
 🎯 WANT MORE?
 Intraday alerts + position sizing → VIP $9.99/mo
-[Gumroad link]
+https://blocksyndicate.gumroad.com/l/vip
 
 Not advice. Do your own research.
 ```

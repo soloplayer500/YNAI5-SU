@@ -96,7 +96,7 @@ If you want the daily shortlist, it's free.
 
 VIP tier = intraday alerts + position sizing math + trade journal template → $9.99/mo.
 
-[Gumroad link]
+https://blocksyndicate.gumroad.com/l/vip
 
 No upsell in DMs. No "exclusive signals" nonsense.
 
@@ -152,7 +152,7 @@ If you want to skip the 60-day vibe-losses phase, I post the daily screener outp
 
 Runs every morning 8 AM AST. Top 5 crypto, top 3 stocks, ranked.
 
-VIP with more alerts: [Gumroad link] — $9.99/mo.
+VIP with more alerts: https://blocksyndicate.gumroad.com/l/vip — $9.99/mo.
 
 First 30 subs get founder pricing locked in.
 

@@ -31,7 +31,12 @@ if _env.exists():
             os.environ.setdefault(k.strip(), v.strip())
 
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-CHAT_ID   = int(os.environ.get("TELEGRAM_CHAT_ID", "8569520396"))
+_raw_chat = os.environ.get("TELEGRAM_CHAT_ID", "8569520396")
+try:
+    CHAT_ID = int(_raw_chat)
+except (ValueError, TypeError):
+    # .env.local has non-numeric value (e.g. bot username) — fall back to default
+    CHAT_ID = 8569520396
 MAX_WAIT  = 30  # seconds to wait for command response
 
 SAFE_SERVICES = {"ynai5-dashboard", "ynai5-gemini", "nginx"}

@@ -37,7 +37,7 @@ Posted to a free Telegram channel. No affiliate. No spam. Just the output.
 
 👉 Free channel: [Telegram free link]
 
-VIP tier with intraday alerts + position sizing = $9.99/mo at [Gumroad link].
+VIP tier with intraday alerts + position sizing = $9.99/mo at https://blocksyndicate.gumroad.com/l/vip.
 
 Happy to answer any questions about the filter stack or methodology. Not selling anything here, just wanted to put it in front of people who would actually use it.
 ```

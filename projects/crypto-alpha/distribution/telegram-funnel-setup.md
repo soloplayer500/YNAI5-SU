@@ -1,5 +1,5 @@
 # Telegram Funnel Setup
-_Generated: 2026-04-26 | Replace [GUMROAD_URL] with your Gumroad product link_
+_Generated: 2026-04-26 | Replace https://blocksyndicate.gumroad.com/l/vip with your Gumroad product link_
 
 ---
 
@@ -15,7 +15,7 @@ Entry • Stop • Target • Thesis — every day, no noise
 🔐 VIP ($9.99/mo): Full scan — 5+ picks daily + watchlist
 
 👇 Get VIP access:
-[GUMROAD_URL]
+https://blocksyndicate.gumroad.com/l/vip
 ```
 
 ---
@@ -41,7 +41,7 @@ What the scan produces:
 Want the full pack? 5+ picks daily, full signal breakdown, weekly accuracy report:
 
 🔐 VIP — $9.99/month
-👉 [GUMROAD_URL]
+👉 https://blocksyndicate.gumroad.com/l/vip
 
 No lock-in. Cancel anytime. Break-even on 2 subscribers.
 ```
@@ -59,14 +59,14 @@ Entry • Stop • Target • R/R • Thesis — every setup, every day.
 Powered by live Kraken + CoinGecko data.
 Same filter. No discretion. No hype.
 
-Access via: [GUMROAD_URL]
+Access via: https://blocksyndicate.gumroad.com/l/vip
 ```
 
 ---
 
 ## User Checklist
 
-- [ ] Replace ALL instances of `[GUMROAD_URL]` with your actual Gumroad link
+- [ ] Replace ALL instances of `https://blocksyndicate.gumroad.com/l/vip` with your actual Gumroad link
 - [ ] Update free channel description
 - [ ] Post + pin the welcome message in free channel
 - [ ] Update VIP channel description

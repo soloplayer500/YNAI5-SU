@@ -1,5 +1,5 @@
 # Twitter / X Thread — #1
-_Generated: 2026-04-26 | Replace [GUMROAD_URL] and [TELEGRAM_FREE_LINK] before posting_
+_Generated: 2026-04-26 | Replace https://blocksyndicate.gumroad.com/l/vip and [TELEGRAM_FREE_LINK] before posting_
 _Post as a reply-chain thread. Tweet 1 first, then reply to it with Tweet 2, etc._
 
 ---
@@ -72,7 +72,7 @@ Getting these daily in my free Telegram channel.
 1 free pick/day → [TELEGRAM_FREE_LINK]
 
 Full pack (5+ picks + stocks + weekly report):
-→ [GUMROAD_URL] — $9.99/mo
+→ https://blocksyndicate.gumroad.com/l/vip — $9.99/mo
 
 Follow for daily setups. Every morning. No noise.
 ```

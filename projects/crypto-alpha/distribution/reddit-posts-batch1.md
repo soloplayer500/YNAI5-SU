@@ -1,5 +1,5 @@
 # Reddit Signal Posts — Batch 1
-_Generated: 2026-04-26 | Replace [GUMROAD_URL] and [TELEGRAM_FREE_LINK] before posting_
+_Generated: 2026-04-26 | Replace https://blocksyndicate.gumroad.com/l/vip and [TELEGRAM_FREE_LINK] before posting_
 _Post cadence: 1 per sub, space them 24h apart to avoid spam flags_
 
 ---
@@ -25,7 +25,7 @@ Running a daily AI-powered scan across 15 crypto assets every morning. ETH is th
 This is generated from live CoinGecko + Kraken data through a screener I built. Every call gets logged — wins and losses publicly tracked.
 
 Free daily signals → [TELEGRAM_FREE_LINK]
-Full signal pack (5+ picks/day) → [GUMROAD_URL]
+Full signal pack (5+ picks/day) → https://blocksyndicate.gumroad.com/l/vip
 
 Not financial advice. Size accordingly.
 ```
@@ -83,7 +83,7 @@ I run an automated screener daily across crypto and stocks. Here's today's outpu
 Logging all calls. 0 cherry-picking — every signal gets posted before the candle closes.
 
 Free channel (1 pick/day): [TELEGRAM_FREE_LINK]
-VIP (full pack + weekly accuracy report): [GUMROAD_URL]
+VIP (full pack + weekly accuracy report): https://blocksyndicate.gumroad.com/l/vip
 ```
 
 ---
@@ -115,7 +115,7 @@ Why: AI/DeFi narrative, accumulation pattern on daily, volume contracting into s
 I've been logging every call I make — wins and losses. Building the track record publicly before I start talking about accuracy numbers.
 
 If you want the free daily pick → [TELEGRAM_FREE_LINK]
-Full scan (5+ picks) → [GUMROAD_URL]
+Full scan (5+ picks) → https://blocksyndicate.gumroad.com/l/vip
 
 Throwaway note: Not financial advice. R:R discipline > conviction. Size accordingly.
 ```
